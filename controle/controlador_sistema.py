@@ -28,8 +28,9 @@ class ControladorSistema():
                         3: self.opcao_servicos, 4: self.opcao_atendimentos,
                         0: self.opcao_encerra}
 
-        opcao_escolhida = self.__tela_sistema.tela_opcoes()
+        while True:
+            opcao_escolhida = self.__tela_sistema.tela_opcoes()
 
-        funcao_escolhida = lista_opcoes[opcao_escolhida]
+            funcao_escolhida = lista_opcoes[opcao_escolhida]
 
-        funcao_escolhida()
+            funcao_escolhida()
