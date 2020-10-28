@@ -1,9 +1,11 @@
 from limite.tela_sistema import TelaSistema
+from controle.controlador_cliente import ControladorCliente
 
 
 class ControladorSistema():
     def __init__(self):
-        self.__tela_sistema = TelaSistema()
+        self.__tela_sistema = TelaSistema(self)
+        self.__controlador_cliente = ControladorCliente(self)
 
     def inicializa_sistema(self):
         self.abre_tela()
@@ -12,7 +14,7 @@ class ControladorSistema():
         pass
 
     def opcao_clientes(self):
-        pass
+        self.__controlador_cliente.abre_tela()
 
     def opcao_servicos(self):
         pass
