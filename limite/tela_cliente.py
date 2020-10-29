@@ -6,8 +6,9 @@ class TelaCliente:
         print(" ---- Cadastro de Clientes ---- ")
         print("Escolha a opção")
         print("1: Inclui Cliente")
-        print("2: Altera dados do Cliente")
+        print("2: Exclui Cliente")
         print("3: Lista Clientes")
+        print("4: Altera dados do Cliente")
         print("0: Retorna")
 
         opcao = int(input("Escolha a opção: "))
@@ -25,3 +26,8 @@ class TelaCliente:
 
     def mostra_dados_cliente(self, nome: str):
         print("Cliente:", nome)
+
+    def encontra_cliente(self):
+        print(" ---- Exclusão de cliente ---- ")
+        nome = input("Nome do cliente que deseja excluir: ")
+        return nome

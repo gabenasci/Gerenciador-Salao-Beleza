@@ -24,7 +24,11 @@ class ControladorCliente:
         self.__clientes.append(novo_cliente)
 
     def exclui_cliente(self):
-        pass
+        nome_cliente = self.__tela_cliente.encontra_cliente()
+        for obj in self.__clientes:
+            if obj.nome == nome_cliente:
+                if (obj is not None) and (isinstance(obj, Cliente)):
+                    self.__clientes.remove(obj)
 
     def lista_clientes(self):
         for cliente in self.__clientes:
