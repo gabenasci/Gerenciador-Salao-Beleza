@@ -1,3 +1,5 @@
+from entidade.funcionario import Funcionario
+
 class Servico:
     def __init__(self, nome: str, contra_indicacao: bool):
         self.__nome = nome
@@ -35,3 +37,14 @@ class Servico:
     def qual_contra_indic(self, qual_contra_indic):
         if isinstance(qual_contra_indic, str):
             self.__qual_contra_indic = qual_contra_indic
+
+    def add_funcionario(self, funcionario: Funcionario):
+        if (funcionario is not None) and (isinstance(funcionario, Funcionario)):
+            if funcionario not in self.__funcionarios:
+                self.__funcionarios.append(funcionario)
+                #for a in self.__funcionarios:
+                    #print(a.nome)
+            if self not in funcionario.servicos:
+                funcionario.servicos.append(self)
+                #for i in funcionario.servicos:
+                    #print(i.nome)

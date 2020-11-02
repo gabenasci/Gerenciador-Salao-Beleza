@@ -22,9 +22,8 @@ class TelaFuncionario:
         data_nascimento = input("Data de nascimento do funcionário: ")
         telefone = int(input("Telefone do funcionário: "))
         data_contratacao = input("Data de contratação do funcionário: ")
-        servico = input("Servico: ")
         dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
-                "data_contratacao": data_contratacao, "servico": servico}
+                "data_contratacao": data_contratacao}
         return dados_funcionario
 
     def mostra_dados_funcionario(self, nome: str, data_nascimento, data_contratacao):

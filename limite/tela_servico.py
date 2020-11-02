@@ -9,6 +9,7 @@ class TelaServico:
         print("2: Exclui Serviço")
         print("3: Lista Serviço")
         print("4: Altera dados do Serviço")
+        print("5: Habilitar funcionário para um serviço")
         print("0: Retorna")
 
         opcao = int(input("Escolha a opção: "))
@@ -27,3 +28,9 @@ class TelaServico:
         print(" ---- Exclusão de cliente ---- ")
         nome = input("Nome do cliente que deseja excluir: ")
         return nome
+
+    def encontra_funcionario(self):
+        print(" ---- Habilita funcionário ---- ")
+        funcionario = input("Nome do funcionário que deseja habilitar: ")
+        servico = input("Para qual serviço deseja habilitar esse funcionário: ")
+        return funcionario, servico

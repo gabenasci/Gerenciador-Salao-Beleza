@@ -40,3 +40,6 @@ class ControladorSistema():
             funcao_escolhida = lista_opcoes[opcao_escolhida]
 
             funcao_escolhida()
+
+    def funcionarios(self):
+        return self.__controlador_funcionario.funcionarios
