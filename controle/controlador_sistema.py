@@ -1,5 +1,6 @@
 from limite.tela_sistema import TelaSistema
 from controle.controlador_cliente import ControladorCliente
+from controle.controlador_servico import ControladorServico
 from controle.controlador_funcionario import ControladorFuncionario
 
 
@@ -7,6 +8,7 @@ class ControladorSistema():
     def __init__(self):
         self.__tela_sistema = TelaSistema(self)
         self.__controlador_cliente = ControladorCliente(self)
+        self.__controlador_servico = ControladorServico(self)
         self.__controlador_funcionario = ControladorFuncionario(self)
 
     def inicializa_sistema(self):
@@ -19,7 +21,7 @@ class ControladorSistema():
         self.__controlador_cliente.abre_tela()
 
     def opcao_servicos(self):
-        pass
+        self.__controlador_servico.abre_tela()
 
     def opcao_atendimentos(self):
         pass
