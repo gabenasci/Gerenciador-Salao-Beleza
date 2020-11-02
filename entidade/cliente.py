@@ -1,7 +1,7 @@
 from entidade.pessoa import Pessoa
 
 class Cliente(Pessoa):
-    def __init__(self, nome: str, data_nascimento: str, telefone: str, instagram: str, tipo_cliente: str, obs: str):
+    def __init__(self, nome: str, data_nascimento: str, telefone: int, instagram: str, tipo_cliente: str, obs: str):
         super().__init__(nome, data_nascimento, telefone)
         if isinstance(instagram, str):
             self.__instagram = instagram
@@ -31,5 +31,5 @@ class Cliente(Pessoa):
         return self.__obs
 
     @obs.setter
-    def tipo_cliente(self, obs):
+    def obs(self, obs):
         self.__obs = obs
