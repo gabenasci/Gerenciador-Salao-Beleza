@@ -1,3 +1,5 @@
+import datetime
+
 class TelaCliente:
     def __init__(self, controlador_cliente):
         self.__controle = controlador_cliente
@@ -30,7 +32,9 @@ class TelaCliente:
     def solicita_dados_cliente(self):
         print(" ---- Inclusão de Cliente ---- ")
         nome = input("Nome do cliente: ")
-        data_nascimento = input("Data de nascimento: ")
+        data = input("Data de nascimento (DIA/MES/ANO): ")
+        dia, mes, ano = map(int, data.split('/'))
+        data_nascimento = datetime.date(ano, mes, dia)
         telefone = input("Telefone: ")
         instagram = input("Instagram: ")
         tipo_cliente = input("Tipo cliente: ")

@@ -1,11 +1,12 @@
 from entidade.pessoa import Pessoa
+import datetime
 
 
 class Funcionario(Pessoa):
 
-    def __init__(self, nome: str, data_nascimento: str, telefone: int, data_contratacao: str):
+    def __init__(self, nome: str, data_nascimento: datetime.date, telefone: int, data_contratacao: datetime.date):
         super().__init__(nome, data_nascimento, telefone)
-        if isinstance(data_contratacao, str):
+        if isinstance(data_contratacao, datetime.date):
             self.__data_contratacao = data_contratacao
         self.__servicos = []
 
@@ -14,8 +15,9 @@ class Funcionario(Pessoa):
         return self.__data_contratacao
 
     @data_contratacao.setter
-    def data_contratacao(self, data_contratacao):
-        self.__data_contratacao = data_contratacao
+    def data_contratacao(self, data_contratacao: datetime.date):
+        if isinstance(data_contratacao, datetime.date):
+            self.__data_contratacao = data_contratacao
 
     @property
     def servicos(self):

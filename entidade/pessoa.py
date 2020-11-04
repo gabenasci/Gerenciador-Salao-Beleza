@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
+import datetime
 
 
 class Pessoa(ABC):
     @abstractmethod
-    def __init__(self, nome: str, data_nascimento: str, telefone: int):
+    def __init__(self, nome: str, data_nascimento: datetime.date, telefone: int):
         if isinstance(nome, str):
             self.__nome = nome
-        if isinstance(data_nascimento, str):
+        if isinstance(data_nascimento, datetime.date):
             self.__data_nascimento = data_nascimento
         if isinstance(telefone, int):
             self.__telefone = telefone
@@ -25,8 +26,8 @@ class Pessoa(ABC):
         return self.__data_nascimento
 
     @data_nascimento.setter
-    def data_nascimento(self, data_nascimento: str):
-        if isinstance(data_nascimento, str):
+    def data_nascimento(self, data_nascimento: datetime.date):
+        if isinstance(data_nascimento, datetime.date):
             self.__data_nascimento = data_nascimento
 
     @property

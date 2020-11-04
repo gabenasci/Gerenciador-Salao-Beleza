@@ -12,6 +12,7 @@ class ControladorServico:
     def abre_tela(self):
         switcher = {0: self.retorna, 1: self.inclui_servico, 2: self.exclui_servico, 3: self.lista_servicos, 4: self.altera_servico, 5: self.habilita_funcionario}
 
+        self.__continua_exibindo_tela = True
         while self.__continua_exibindo_tela:
             opcao = self.__tela_servico.tela_opcoes()
             funcao_escolhida = switcher[opcao]

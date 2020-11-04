@@ -14,6 +14,7 @@ class ControladorFuncionario:
 
         switcher = {0: self.retorna, 1: self.inclui_funcionario, 2: self.exclui_funcionario, 3: self.lista_funcionarios, 4: self.altera_funcionario}
 
+        self.__continua_exibindo_tela = True
         while self.__continua_exibindo_tela:
             opcao = self.__tela_funcionario.tela_opcoes()
             funcao_escolhida = switcher[opcao]

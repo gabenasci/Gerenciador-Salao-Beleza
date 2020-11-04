@@ -1,4 +1,4 @@
-
+import datetime
 
 class TelaFuncionario:
     def __init__(self, controlador_funcionario):
@@ -19,11 +19,15 @@ class TelaFuncionario:
     def solicita_dados_funcionario(self):
         print(" ---- Inclusão de Funcionario ---- ")
         nome = input("Nome do funcionário: ")
-        data_nascimento = input("Data de nascimento do funcionário: ")
+        data = input("Data de nascimento do funcionário (DIA/MES/ANO): ")
+        dia, mes, ano = map(int, data.split('/'))
+        data_nascimento = datetime.date(ano, mes, dia)
         telefone = int(input("Telefone do funcionário: "))
-        data_contratacao = input("Data de contratação do funcionário: ")
+        data2 = input("Data de contratação do funcionário (DIA/MES/ANO): ")
+        dia, mes, ano = map(int, data2.split('/'))
+        data_contratacao = datetime.date(ano, mes, dia)
         dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
-                "data_contratacao": data_contratacao}
+                             "data_contratacao": data_contratacao}
         return dados_funcionario
 
     def mostra_dados_funcionario(self, nome: str, data_nascimento, data_contratacao):
@@ -39,9 +43,14 @@ class TelaFuncionario:
     def altera_dados_funcionario(self):
         print(" --- Alteração de funcionario ---")
         nome_funcionario = input("Nome do funcionario a ser alterado: ")
-        print("Dados: nome, data_nascimento, telfone, data_contratacao, servico")
-        dado = input("Qual o dado a ser alterado? ")
-        valor = input("Insira o novo " + dado +": ")
+        print("Dados: nome, data_nascimento, telefone, data_contratacao, servico")
+        dado = input("Dado a ser alterado ")
+        if dado == "data_nascimento" or "data_contratacao":
+            data = input("Insira o " + dado +" (DIA/MÊS/ANO): ")
+            dia, mes, ano = map(int, data.split('/'))
+            valor = datetime.date(ano, mes, dia)
+        else:
+            valor = input("Insira o " + dado + ": ")
         return nome_funcionario, dado, valor
 
 
