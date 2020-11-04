@@ -45,10 +45,19 @@ class ControladorCliente:
 
     def lista_clientes(self):
         for cliente in self.__clientes:
-            self.__tela_cliente.mostra_dados_cliente(cliente.nome)
+            self.__tela_cliente.mostra_dados_cliente(cliente.nome, cliente.telefone)
 
     def altera_cliente(self):
-        pass
+        nome_cliente, dado, valor_dado = self.__tela_cliente.altera_dados_cliente()
+        for cliente in self.__clientes:
+            if cliente.nome == nome_cliente:
+                dados_cliente = {"nome": cliente.nome, "data_nascimento": cliente.data_nascimento, "telefone": cliente.telefone,
+                                     "instagram": cliente.instagram, "tipo_cliente": cliente.tipo_cliente, "obs": cliente.obs}
+                dados_cliente[dado] = valor_dado
+                self.__clientes.remove(cliente)
+                cliente_alterado = Cliente(dados_cliente["nome"], dados_cliente["data_nascimento"], dados_cliente["telefone"],
+                                           dados_cliente["instagram"], dados_cliente["tipo_cliente"], dados_cliente["obs"])
+                self.__clientes.append(cliente_alterado)
 
     def retorna(self):
         self.__continua_exibindo_tela = False

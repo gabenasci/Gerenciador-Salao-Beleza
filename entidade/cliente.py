@@ -1,7 +1,8 @@
 from entidade.pessoa import Pessoa
+import datetime
 
 class Cliente(Pessoa):
-    def __init__(self, nome: str, data_nascimento: str, telefone: int, instagram: str, tipo_cliente: str, obs: str):
+    def __init__(self, nome: str, data_nascimento: datetime.date, telefone: int, instagram: str, tipo_cliente: str, obs: str):
         super().__init__(nome, data_nascimento, telefone)
         if isinstance(instagram, str):
             self.__instagram = instagram

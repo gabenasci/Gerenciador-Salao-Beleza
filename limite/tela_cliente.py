@@ -35,19 +35,33 @@ class TelaCliente:
         data = input("Data de nascimento (DIA/MES/ANO): ")
         dia, mes, ano = map(int, data.split('/'))
         data_nascimento = datetime.date(ano, mes, dia)
-        telefone = input("Telefone: ")
+        telefone = int(input("Telefone: "))
         instagram = input("Instagram: ")
         tipo_cliente = input("Tipo cliente: ")
         obs = input("Observações: ")
         return {"Nome": nome, "Data_nascimento": data_nascimento, "Telefone": telefone, "Instagram": instagram, "Tipo_cliente": tipo_cliente, "Obs": obs}
 
-    def mostra_dados_cliente(self, nome: str):
+    def mostra_dados_cliente(self, nome: str, telefone: int):
         print("Cliente: ", nome)
+        print("Telefone: ", telefone)
 
     def encontra_cliente(self):
         print(" ---- Exclusão de cliente ---- ")
         nome = input("Nome do cliente que deseja excluir: ")
         return nome
+
+    def altera_dados_cliente(self):
+        print(" --- Alteração de cliente ---")
+        nome_cliente = input("Nome do cliente a ser alterado: ")
+        print("Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
+        dado = input("Dado a ser alterado: ")
+        if dado == "data_nascimento":
+            data = input("Insira o " + dado +" (DIA/MÊS/ANO): ")
+            dia, mes, ano = map(int, data.split('/'))
+            valor = datetime.date(ano, mes, dia)
+        else:
+            valor = input("Insira o " + dado + ": ")
+        return nome_cliente, dado, valor
 
     def excecao(self, mensagem):
         print("Teste", mensagem)
