@@ -29,8 +29,10 @@ class TelaAtendimento:
         hora = input("Hora do atendimento (HH:MM): ")
         h, m = map(int, hora.split(':'))
         hora_atendimento = datetime.time(h, m)
+        valor = float(input("Valor do atendimento: R$"))
+        pago = bool(input("Pago agora (True/False):"))
         dados_atendimento = {"servico": servico, "cliente": cliente, "funcionario": funcionario,
-                             "data": data_atendimento, "hora": hora_atendimento}
+                             "data": data_atendimento, "hora": hora_atendimento, "valor": valor, "pago": pago}
         return dados_atendimento
 
     def encontra_atendimento(self):
@@ -41,7 +43,7 @@ class TelaAtendimento:
     def altera_dados_atendimento(self):
         print(" --- Alteração de Atendimento ---")
         id = int(input("Insira o ID do atendimento: "))
-        print("Dados: servico, cliente, funcionario, data, hora")
+        print("Dados: servico, cliente, funcionario, data, hora, valor, pago")
         dado = input("Dado a ser alterado: ")
         if dado == "data":
             data = input("Insira a " + dado +" (DIA/MÊS/ANO): ")
@@ -67,12 +69,14 @@ class TelaAtendimento:
         data_atendimento = datetime.date(ano, mes, dia)
         return data_atendimento
 
-    def mostra_dados_atendimento(self, id: int, servico, cliente, funcionario, data, hora):
+    def mostra_dados_atendimento(self, id: int, servico, cliente, funcionario, data, hora, valor, pago):
         print("ID: ", id)
         print("Servico: ", servico)
         print("Cliente: ", cliente)
         print("Funcionario: ", funcionario)
         print("Data e hora: ", data, ", ", hora)
+        print("Valor: R$", valor)
+        print("Pago: ", pago)
 
     def relatorio_mes(self):
         print(" --- Relatório do Mês --- ")

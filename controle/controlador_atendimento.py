@@ -26,7 +26,8 @@ class ControladorAtendimento:
             for obj in self.__atendimentos:
                 if obj.funcionario == dados_atendimento["funcionario"] and obj.data == dados_atendimento["data"] and obj.hora == dados_atendimento["hora"]:
                     raise FuncionarioIndisponivelExcecao
-            novo_atendimento = Atendimento(dados_atendimento["servico"], dados_atendimento["cliente"], dados_atendimento["funcionario"], dados_atendimento["data"], dados_atendimento["hora"])
+            novo_atendimento = Atendimento(dados_atendimento["servico"], dados_atendimento["cliente"], dados_atendimento["funcionario"],
+                                           dados_atendimento["data"], dados_atendimento["hora"], dados_atendimento["valor"], dados_atendimento["pago"])
             self.__atendimentos.append(novo_atendimento)
             novo_atendimento.id = len(self.__atendimentos)
         except FuncionarioIndisponivelExcecao:
@@ -48,13 +49,19 @@ class ControladorAtendimento:
         cliente = self.__tela_atendimento.atendimento_cliente()
         for atendimento in self.__atendimentos:
             if atendimento.cliente == cliente:
-                self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico, atendimento.cliente, atendimento.funcionario, atendimento.data, atendimento.hora)
+                self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
+                                                                 atendimento.cliente, atendimento.funcionario,
+                                                                 atendimento.data, atendimento.hora,
+                                                                 atendimento.valor, atendimento.pago)
 
     def lista_atendimentos_dia(self):
         dia = self.__tela_atendimento.atendimento_dia()
         for atendimento in self.__atendimentos:
             if atendimento.dia == dia:
-                self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico, atendimento.cliente, atendimento.funcionario, atendimento.data, atendimento.hora)
+                self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
+                                                                 atendimento.cliente, atendimento.funcionario,
+                                                                 atendimento.data, atendimento.hora,
+                                                                 atendimento.valor, atendimento.pago)
 
     def altera_atendimentos(self):
         pass

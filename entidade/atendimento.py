@@ -2,18 +2,21 @@ import datetime
 from entidade.servico import Servico
 from entidade.cliente import Cliente
 from entidade.funcionario import Funcionario
+from entidade.pagamento import Pagamento
 
 
 class Atendimento:
 
     def __init__(self, servico: Servico, cliente: Cliente, funcionario: Funcionario, data: datetime.date,
-             hora: datetime.time):
+             hora: datetime.time, valor: float, pago: bool):
         self.__servico = servico
         self.__cliente = cliente
         self.__funcionario = funcionario
         self.__data = data
         self.__hora = hora
         self.__id = 0
+        self.__pagamento = Pagamento(valor, pago)
+
 
         @property
         def servico(self):
@@ -62,3 +65,11 @@ class Atendimento:
         @id.setter
         def id(self, id):
             self.__id = id
+
+        @property
+        def valor(self):
+            return self.__pagamento.valor
+
+        @property
+        def pago(self):
+            return self.__pagamento.pago
