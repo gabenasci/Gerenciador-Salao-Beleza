@@ -1,5 +1,6 @@
 from limite.tela_servico import TelaServico
 from entidade.servico import Servico
+from entidade.atendimento import Atendimento
 
 class ControladorServico:
     def __init__(self, controlador_sistema):
@@ -20,7 +21,14 @@ class ControladorServico:
 
     def inclui_servico(self):
         dados_servico = self.__tela_servico.solicita_dados_servico()
-        novo_servico = Servico(dados_servico["Nome"], dados_servico["Contra_indic"])
+        if dados_servico["Requisito"] == Servico.kit_unha.nome:
+            dados_servico["Requisito"] = Servico.kit_unha
+        if dados_servico["Requisito"] == Servico.kit_cabelo.nome:
+            dados_servico["Requisito"] = Servico.kit_cabelo
+        if dados_servico["Requisito"] == Servico.kit_pele.nome:
+            dados_servico["Requisito"] = Servico.kit_pele
+
+        novo_servico = Servico(dados_servico["Nome"], dados_servico["Requisito"])
         if (novo_servico is not None) and (isinstance(novo_servico, Servico)):
             if novo_servico not in self.__servicos:
                 self.__servicos.append(novo_servico)
@@ -34,10 +42,18 @@ class ControladorServico:
 
     def lista_servicos(self):
         for servico in self.__servicos:
-            self.__tela_servico.mostra_dados_servico(servico.nome)
+            self.__tela_servico.mostra_dados_servico(servico.nome, servico.requisito)
 
     def altera_servico(self):
-        pass
+        nome_servico, dado, valor_dado = self.__tela_servico.altera_dados_servico()
+        for servico in self.__servicos:
+            if servico.nome == nome_servico:
+                dados_servico = {"nome": servico.nome,
+                                     "requisito": servico.requisito}
+                dados_servico[dado] = valor_dado
+                self.__servicos.remove(servico)
+                servico_alterado = Servico(dados_servico["nome"], dados_servico["requisito"])
+                self.__servicos.append(servico_alterado)
 
     def habilita_funcionario(self):
         funcionario, servico = self.__tela_servico.encontra_funcionario()

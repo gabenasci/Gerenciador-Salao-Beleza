@@ -64,4 +64,4 @@ class TelaCliente:
         return nome_cliente, dado, valor
 
     def excecao(self, mensagem):
-        print("Teste", mensagem)
+        print(mensagem)
