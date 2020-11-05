@@ -1,6 +1,8 @@
 import datetime
 
-class TelaAtendimento():
+class TelaAtendimento:
+    def __init__(self, controlador_atendimento):
+        self.__controle = controlador_atendimento
 
     def tela_opcoes(self):
         print(" ---- Cadastro de Atendimentos ---- ")
@@ -70,11 +72,15 @@ class TelaAtendimento():
         print("Servico: ", servico)
         print("Cliente: ", cliente)
         print("Funcionario: ", funcionario)
-        print ("Data e hora: ", data, ", ", hora)
+        print("Data e hora: ", data, ", ", hora)
 
     def relatorio_mes(self):
         print(" --- Relatório do Mês --- ")
         mes = input("Insira o mês (1-12):")
         return mes
 
-    def mostra_relatorio(self, ):
+    def mostra_relatorio(self):
+        pass
+
+    def excecao(self, mensagem):
+        print("Teste", mensagem)

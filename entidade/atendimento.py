@@ -13,6 +13,7 @@ class Atendimento:
         self.__funcionario = funcionario
         self.__data = data
         self.__hora = hora
+        self.__id = 0
 
         @property
         def servico(self):
@@ -52,4 +53,12 @@ class Atendimento:
 
         @hora.setter
         def hora(self, hora):
-            self.__hora = horas
+            self.__hora = hora
+
+        @property
+        def id(self):
+            return self.__id
+
+        @id.setter
+        def id(self, id):
+            self.__id = id
