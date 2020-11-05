@@ -53,6 +53,10 @@ class TelaAtendimento:
             hora = input("Insira a "+ dado +"(HH:MM): ")
             h, m = map(int, hora.split(':'))
             valor = datetime.time(h, m)
+        elif dado == "pago":
+            valor = bool(input("Insira o "+dado+"(True/False): "))
+        elif dado == "valor":
+            valor = float(input("Insira o "+dado+": "))
         else:
             valor = input("Insira o " + dado + ": ")
         return id, dado, valor
@@ -71,16 +75,16 @@ class TelaAtendimento:
 
     def mostra_dados_atendimento(self, id: int, servico, cliente, funcionario, data, hora, valor, pago):
         print("ID: ", id)
-        print("Servico: ", servico)
-        print("Cliente: ", cliente)
-        print("Funcionario: ", funcionario)
-        print("Data e hora: ", data, ", ", hora)
+        print("Servico: ", servico.nome)
+        print("Cliente: ", cliente.nome)
+        print("Funcionario: ", funcionario.nome)
+        print("Data e hora: "+data+ ", ", hora)
         print("Valor: R$", valor)
         print("Pago: ", pago)
 
     def relatorio_mes(self):
         print(" --- Relatório do Mês --- ")
-        mes = input("Insira o mês (1-12):")
+        mes = input("Insira o mês (01-12):")
         return mes
 
     def mostra_relatorio(self):
