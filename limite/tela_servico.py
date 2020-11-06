@@ -56,3 +56,6 @@ class TelaServico:
         dado = input("Dado a ser alterado: ")
         valor = input("Insira o " + dado + ": ")
         return nome_servico, dado, valor
+
+    def excecao(self, mensagem):
+        print(mensagem)

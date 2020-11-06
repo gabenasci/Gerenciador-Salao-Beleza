@@ -1,5 +1,6 @@
 from limite.tela_funcionario import TelaFuncionario
 from entidade.funcionario import Funcionario
+from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 
 
 class ControladorFuncionario:
@@ -40,9 +41,14 @@ class ControladorFuncionario:
 
     def exclui_funcionario(self):
         nome_funcionario = self.__tela_funcionario.encontra_funcionario()
-        for obj in self.__funcionarios:
-            if obj.nome == nome_funcionario:
-                self.__funcionarios.remove(obj)
+        try:
+            for obj in self.__funcionarios:
+                if obj.nome == nome_funcionario:
+                    self.__funcionarios.remove(obj)
+                else:
+                    raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
+            self.__tela_funcionario.excecao(mensagem="Não existe nenhum funcionário com esse nome. Por favor, confira a lista de clientes cadastrados")
 
     def lista_funcionarios(self):
         for funcionario in self.__funcionarios:
