@@ -128,3 +128,9 @@ class ControladorAtendimento:
         for c in self.__controlador.clientes():
             clientes_str.append(c.nome)
         return clientes_str
+
+    def funcionarios(self):
+        funcionarios_str = []
+        for c in self.__controlador.funcionarios():
+            funcionarios_str.append(c.nome)
+        return funcionarios_str
