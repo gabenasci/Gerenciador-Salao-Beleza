@@ -123,12 +123,6 @@ class ControladorAtendimento:
             servicos_str.append(s.nome)
         return servicos_str
 
-    def funcionarios(self):
-        funcionarios_str = []
-        for f in self.__controlador.funcionarios():
-            funcionarios_str.append(f.nome)
-        return funcionarios_str
-
     def clientes(self):
         clientes_str = []
         for c in self.__controlador.clientes():

@@ -1,4 +1,3 @@
-from entidade.funcionario import Funcionario
 from entidade.ferramenta import Ferramenta
 
 class Servico:
@@ -15,7 +14,6 @@ class Servico:
     def nome(self, nome):
         self.__nome = nome
 
-
     @property
     def funcionarios(self):
         return self.__funcionarios
@@ -28,6 +26,7 @@ class Servico:
     def requisito(self, requisito):
         self.__nome = requisito
 
+    '''
     def add_funcionario(self, funcionario: Funcionario):
         if (funcionario is not None) and (isinstance(funcionario, Funcionario)):
             if funcionario not in self.__funcionarios:
@@ -38,6 +37,7 @@ class Servico:
                 funcionario.servicos.append(self)
                 #for i in funcionario.servicos:
                     #print(i.nome)
+    '''
 
     kit_unha = Ferramenta("Kit unha")
     kit_cabelo = Ferramenta("Kit cabelo")
