@@ -1,6 +1,8 @@
 from limite.tela_servico import TelaServico
 from entidade.servico import Servico
 from entidade.atendimento import Atendimento
+from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 
 class ControladorServico:
     def __init__(self, controlador_sistema):
@@ -21,24 +23,31 @@ class ControladorServico:
 
     def inclui_servico(self):
         dados_servico = self.__tela_servico.solicita_dados_servico()
-        if dados_servico["Requisito"] == Servico.kit_unha.nome:
-            dados_servico["Requisito"] = Servico.kit_unha
-        if dados_servico["Requisito"] == Servico.kit_cabelo.nome:
-            dados_servico["Requisito"] = Servico.kit_cabelo
-        if dados_servico["Requisito"] == Servico.kit_pele.nome:
-            dados_servico["Requisito"] = Servico.kit_pele
+        try:
+            if dados_servico["Requisito"] == Servico.kit_unha.nome:
+                dados_servico["Requisito"] = Servico.kit_unha
+            if dados_servico["Requisito"] == Servico.kit_cabelo.nome:
+                dados_servico["Requisito"] = Servico.kit_cabelo
+            if dados_servico["Requisito"] == Servico.kit_pele.nome:
+                dados_servico["Requisito"] = Servico.kit_pele
 
-        novo_servico = Servico(dados_servico["Nome"], dados_servico["Requisito"])
-        if (novo_servico is not None) and (isinstance(novo_servico, Servico)):
-            if novo_servico not in self.__servicos:
-                self.__servicos.append(novo_servico)
+            novo_servico = Servico(dados_servico["Nome"], dados_servico["Requisito"])
+            if (novo_servico is not None) and (isinstance(novo_servico, Servico)):
+                if novo_servico not in self.__servicos:
+                    self.__servicos.append(novo_servico)
+        except ObjetoJaCadastrado:
+            self.__tela_servico.excecao(mensagem="Já existe um serviço cadastrado com esse nome! Por favor, verifique a lista de serviços cadastrados")
 
     def exclui_servico(self):
         nome_servico = self.__tela_servico.encontra_servico()
-        for obj in self.__servicos:
-            if obj.nome == nome_servico:
-                if (obj is not None) and (isinstance(obj, Servico)):
+        try:
+            for obj in self.__servicos:
+                if obj.nome == nome_servico:
                     self.__servicos.remove(obj)
+                else:
+                    raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
+            self.__tela_servico.excecao(mensagem="Não existe nenhum serviço com esse nome. Por favor, confira a lista de serviços cadastrados")
 
     def lista_servicos(self):
         for servico in self.__servicos:

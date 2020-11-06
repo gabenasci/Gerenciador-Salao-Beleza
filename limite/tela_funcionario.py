@@ -66,4 +66,5 @@ class TelaFuncionario:
             valor = input("Insira o " + dado + ": ")
         return nome_funcionario, dado, valor
 
-
+    def excecao(self, mensagem):
+        print(mensagem)

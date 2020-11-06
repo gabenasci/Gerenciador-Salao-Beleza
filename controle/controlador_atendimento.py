@@ -1,5 +1,5 @@
 from excecoes.funcionario_indisponivel import FuncionarioIndisponivelExcecao
-from excecoes.atendimento_nao_existe import AtendimentoNaoExisteExcecao
+from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from entidade.atendimento import Atendimento
 from limite.tela_atendimento import TelaAtendimento
 from collections import Counter
@@ -53,8 +53,8 @@ class ControladorAtendimento:
                 if obj.id == id_atendimento:
                     self.__atendimentos.remove(obj)
                 else:
-                    raise AtendimentoNaoExisteExcecao
-        except AtendimentoNaoExisteExcecao:
+                    raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
             self.__tela_atendimento.excecao(
                 mensagem="Não existe nenhum atendimento registrado com esse id. Por favor, confira a lista de atendimentos registrados e tente novamente")
 

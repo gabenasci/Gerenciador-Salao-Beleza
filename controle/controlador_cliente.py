@@ -1,7 +1,7 @@
 from entidade.cliente import Cliente
 from limite.tela_cliente import TelaCliente
-from excecoes.cliente_nao_existe import ClienteNaoExisteExcecao
-from excecoes.cliente_ja_cadastrado import ClienteJaCadastrado
+from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 
 class ControladorCliente:
 
@@ -26,10 +26,10 @@ class ControladorCliente:
         try:
             for obj in self.__clientes:
                 if obj.nome == dados_cliente["Nome"]:
-                    raise ClienteJaCadastrado
+                    raise ObjetoJaCadastrado
             novo_cliente = Cliente(dados_cliente["Nome"], dados_cliente["Data_nascimento"], dados_cliente["Telefone"], dados_cliente["Instagram"], dados_cliente["Tipo_cliente"], dados_cliente["Obs"])
             self.__clientes.append(novo_cliente)
-        except ClienteJaCadastrado:
+        except ObjetoJaCadastrado:
             self.__tela_cliente.excecao(mensagem="Já existe um cliente cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
 
     def exclui_cliente(self):
@@ -39,8 +39,8 @@ class ControladorCliente:
                 if obj.nome == nome_cliente:
                     self.__clientes.remove(obj)
                 else:
-                    raise ClienteNaoExisteExcecao
-        except ClienteNaoExisteExcecao:
+                    raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
             self.__tela_cliente.excecao(mensagem="Não existe nenhum cliente com esse nome. Por favor, confira a lista de clientes cadastrados")
 
     def lista_clientes(self):
