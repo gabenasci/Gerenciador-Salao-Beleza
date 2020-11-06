@@ -4,6 +4,19 @@ class TelaAtendimento:
     def __init__(self, controlador_atendimento):
         self.__controle = controlador_atendimento
 
+    def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
+        while True:
+            valor_lido = input(mensagem)
+            try:
+                inteiro = int(valor_lido)
+                if inteiros_validos and inteiro not in inteiros_validos:
+                    raise ValueError
+                return inteiro
+            except ValueError:
+                print("Valor incorreto: Digite um valor numérico inteiro válido")
+                if inteiros_validos:
+                    print("Valores válidos: ", inteiros_validos)
+
     def tela_opcoes(self):
         print(" ---- Cadastro de Atendimentos ---- ")
         print("Escolha a opção")
@@ -15,7 +28,7 @@ class TelaAtendimento:
         print("6: Relatório do mês - número de atendimentos por serviço")
         print("0: Retorna")
 
-        opcao = int(input("Escolha a opção: "))
+        opcao = self.le_num_inteiro("Escolha a opção: ", [1, 2, 3, 4, 5, 6, 0])
         return opcao
 
     def solicita_dados_atendimento(self):

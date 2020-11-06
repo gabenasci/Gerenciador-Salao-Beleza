@@ -26,7 +26,7 @@ class TelaCliente:
         print("4: Altera dados do Cliente")
         print("0: Retorna")
 
-        opcao = int(input("Escolha a opção: "))
+        opcao = self.le_num_inteiro("Escolha a opção: ", [1, 2, 3, 4, 0])
         return opcao
 
     def solicita_dados_cliente(self):
