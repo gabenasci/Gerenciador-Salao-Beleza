@@ -1,7 +1,7 @@
 from limite.tela_funcionario import TelaFuncionario
 from entidade.funcionario import Funcionario
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
-
+from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 
 class ControladorFuncionario:
 
@@ -13,7 +13,8 @@ class ControladorFuncionario:
 
     def abre_tela(self):
 
-        switcher = {0: self.retorna, 1: self.inclui_funcionario, 2: self.exclui_funcionario, 3: self.lista_funcionarios, 4: self.altera_funcionario}
+        switcher = {0: self.retorna, 1: self.inclui_funcionario, 2: self.exclui_funcionario, 3: self.lista_funcionarios,
+                    4: self.altera_funcionario, 5: self.habilita_funcionario}
 
         self.__continua_exibindo_tela = True
         while self.__continua_exibindo_tela:
@@ -23,9 +24,15 @@ class ControladorFuncionario:
 
     def inclui_funcionario(self):
         dados_funcionario = self.__tela_funcionario.solicita_dados_funcionario()
-        novo_funcionario = Funcionario(dados_funcionario["nome"], dados_funcionario["data_nascimento"],
-                                       dados_funcionario["telefone"], dados_funcionario["data_contratacao"])
-        self.__funcionarios.append(novo_funcionario)
+        try:
+            for obj in self.__funcionarios:
+                if obj.nome == dados_funcionario["Nome"]:
+                    raise ObjetoJaCadastrado
+            novo_funcionario = Funcionario(dados_funcionario["nome"], dados_funcionario["data_nascimento"],
+                                           dados_funcionario["telefone"], dados_funcionario["data_contratacao"])
+            self.__funcionarios.append(novo_funcionario)
+        except ObjetoJaCadastrado:
+            self.__tela_funcionario.excecao(mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
 
     def altera_funcionario(self):
         nome_funcionario, dado, valor_dado = self.__tela_funcionario.altera_dados_funcionario()
@@ -60,3 +67,20 @@ class ControladorFuncionario:
     @property
     def funcionarios(self):
         return self.__funcionarios
+
+    def funcionarios_nome(self):
+        funcionarios_str = []
+        for f in self.__funcionarios:
+            funcionarios_str.append(f.nome)
+        return funcionarios_str
+
+    def habilita_funcionario(self):
+        funcionario, servico = self.__tela_funcionario.encontra_servico()
+        for f in self.__controlador.funcionarios():
+            if f.nome == funcionario:
+                print('passou funcionario')
+                for s in self.__servicos:
+                    print('passou servicos')
+                    if s.nome == servico:
+                        s.add_funcionario(f)
+                        print("chamou a funcao")

@@ -1,4 +1,5 @@
 from entidade.pessoa import Pessoa
+from entidade.servico import Servico
 import datetime
 
 
@@ -26,3 +27,14 @@ class Funcionario(Pessoa):
     @servicos.setter
     def servicos(self, servicos):
         self.__servicos = servicos
+
+    def add_servico(self, servico, Servico):
+        if (servico is not None) and (isinstance(servico, Servico)):
+            if servico not in self.__servicos:
+                self.__servicos.append(servico)
+                #for a in self.__funcionarios:
+                    #print(a.nome)
+            if self not in servico.funcionarios:
+                servico.funcionarios.append(self)
+                #for i in funcionario.servicos:
+                    #print(i.nome)

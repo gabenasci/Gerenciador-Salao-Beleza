@@ -13,7 +13,8 @@ class ControladorServico:
         self.__continua_exibindo_tela = True
 
     def abre_tela(self):
-        switcher = {0: self.retorna, 1: self.inclui_servico, 2: self.exclui_servico, 3: self.lista_servicos, 4: self.altera_servico, 5: self.habilita_funcionario}
+        switcher = {0: self.retorna, 1: self.inclui_servico, 2: self.exclui_servico, 3: self.lista_servicos,
+                    4: self.altera_servico}
 
         self.__continua_exibindo_tela = True
         while self.__continua_exibindo_tela:
@@ -63,7 +64,7 @@ class ControladorServico:
                 self.__servicos.remove(servico)
                 servico_alterado = Servico(dados_servico["nome"], dados_servico["requisito"])
                 self.__servicos.append(servico_alterado)
-
+    '''
     def habilita_funcionario(self):
         funcionario, servico = self.__tela_servico.encontra_funcionario()
         for f in self.__controlador.funcionarios():
@@ -74,7 +75,7 @@ class ControladorServico:
                     if s.nome == servico:
                         s.add_funcionario(f)
                         print("chamou a funcao")
-
+    '''
     def retorna(self):
         self.__continua_exibindo_tela = False
 
