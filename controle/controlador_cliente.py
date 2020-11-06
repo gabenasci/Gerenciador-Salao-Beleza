@@ -45,7 +45,7 @@ class ControladorCliente:
 
     def lista_clientes(self):
         for cliente in self.__clientes:
-            self.__tela_cliente.mostra_dados_cliente(cliente.nome, cliente.telefone)
+            self.__tela_cliente.mostra_dados_cliente(cliente.nome, cliente.telefone, cliente.data_nascimento, cliente.instagram, cliente.tipo_cliente, cliente.obs)
 
     def altera_cliente(self):
         nome_cliente, dado, valor_dado = self.__tela_cliente.altera_dados_cliente()
@@ -65,3 +65,9 @@ class ControladorCliente:
     @property
     def clientes(self):
         return self.__clientes
+
+    def clientes_nome(self):
+        clientes_str = []
+        for c in self.__clientes:
+            clientes_str.append(c.nome)
+        return clientes_str
