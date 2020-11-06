@@ -19,7 +19,7 @@ class TelaCliente:
                     print("Valores válidos: ", inteiros_validos)
 
     def tela_opcoes(self):
-        print(" ---- Clientes ---- ")
+        print(" ---- CLIENTES ---- ")
         print("Escolha a opção")
         print("1: Inclui Cliente")
         print("2: Exclui Cliente")
@@ -63,13 +63,13 @@ class TelaCliente:
         print("--------------------")
 
     def encontra_cliente(self):
-        print(" ---- Exclusão de cliente ---- ")
+        print(" ---- Exclusão de Cliente ---- ")
         nome = input("Nome do cliente que deseja excluir: ")
         return nome
 
 
     def altera_dados_cliente(self):
-        print(" --- Alteração de cliente ---")
+        print(" ---- Alteração de Cliente ----")
         try:
             nome_cliente = input("Nome do cliente a ser alterado: ")
             if nome_cliente not in self.__controle.clientes_nome():
@@ -100,13 +100,13 @@ class TelaCliente:
             else:
                 raise ValueError
         except ValueError:
-            print("Dado inválido! Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
+            print("Dado inválido! Dados válidos: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
             self.__controle.abre_tela()
         return nome_cliente, dado, valor
     '''
 
     def altera_dados_cliente(self):
-        print(" --- Alteração de cliente ---")
+        print(" ---- Alteração de Cliente ----")
         nome_cliente = input("Nome do cliente a ser alterado: ")
         print("Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
         try:
@@ -131,7 +131,7 @@ class TelaCliente:
             else:
                 raise ValueError
         except ValueError:
-            print("Dado inválido! Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
+            print("Dado inválido! Dados válidos: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
             self.__controle.abre_tela()
         return nome_cliente, dado, valor
     

@@ -19,20 +19,20 @@ class TelaFuncionario:
                     print("Valores válidos: ", inteiros_validos)
 
     def tela_opcoes(self):
-        print(" ---- Cadastro de Funcionarios ---- ")
+        print(" ---- FUNCIONÁRIOS ---- ")
         print("Escolha a opção")
-        print("1: Inclui Funcionario")
-        print("2: Exclui Funcionario")
-        print("3: Lista Funcionarios")
-        print("4: Altera dados do Funcionario")
-        print("5: Habilita funcionario para serviço")
+        print("1: Inclui Funcionário")
+        print("2: Exclui Funcionário")
+        print("3: Lista Funcionários")
+        print("4: Altera dados do Funcionário")
+        print("5: Habilita funcionário para serviço")
         print("0: Retorna")
 
         opcao = self.le_num_inteiro("Escolha a opção: ", [1, 2, 3, 4, 5, 0])
         return opcao
 
     def solicita_dados_funcionario(self):
-        print(" ---- Inclusão de Funcionario ---- ")
+        print(" ---- Inclusão de Funcionário ---- ")
         nome = input("Nome do funcionário: ")
         try:
             data = input("Data de nascimento do funcionário (DIA/MES/ANO): ")
@@ -62,17 +62,18 @@ class TelaFuncionario:
         print("Nome: ", nome)
         print("Data Nascimento: ", str(data_nascimento))
         print("Data contratação: ", str(data_contratacao))
+        print("--------------------")
 
     def encontra_funcionario(self):
-        print(" ---- Exclusão de funcionario ---- ")
-        nome = input("Nome do funcionario que deseja excluir: ")
+        print(" ---- Exclusão de Funcionário ---- ")
+        nome = input("Nome do funcionário que deseja excluir: ")
         return nome
 
 
     def altera_dados_funcionario(self):
-        print(" --- Alteração de funcionario ---")
+        print(" ---- Alteração de funcionário ----")
         try:
-            nome_funcionario = input("Nome do funcionario a ser alterado: ")
+            nome_funcionario = input("Nome do funcionário a ser alterado: ")
             if nome_funcionario not in self.__controlador.funcionarios_nome():
                 raise ObjetoNaoExisteExcecao
         except ObjetoNaoExisteExcecao:
@@ -101,7 +102,7 @@ class TelaFuncionario:
             else:
                 raise ValueError
         except ValueError:
-            print("Dado inválido! Dados: nome, data_nascimento, telefone, data_contratacao, servico")
+            print("Dado inválido! Dados válidos: nome, data_nascimento, telefone, data_contratacao, servico")
             self.__controlador.abre_tela()
         return nome_funcionario, dado, valor
 

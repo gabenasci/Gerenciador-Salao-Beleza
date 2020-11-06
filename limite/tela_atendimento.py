@@ -19,7 +19,7 @@ class TelaAtendimento:
                     print("Valores válidos: ", inteiros_validos)
 
     def tela_opcoes(self):
-        print(" ---- Cadastro de Atendimentos ---- ")
+        print(" ---- ATENDIMENTOS ---- ")
         print("Escolha a opção")
         print("1: Marcar Atendimento")
         print("2: Excluir Atendimento")
@@ -93,12 +93,12 @@ class TelaAtendimento:
         return id
 
     def altera_dados_atendimento(self):
-        print(" --- Alteração de Atendimento ---")
+        print(" ---- Alteração de Atendimento ----")
         id = input("Insira o ID do atendimento: ")
         try:
             id = int(id)
         except ValueError:
-            print("Tipo de valor inválido!")
+            print("Tipo de valor inválido! Insira um número inteiro.")
             self.__controle.abre_tela()
         print("Dados: servico, cliente, funcionario, data, hora, valor, pago")
         try:
@@ -107,7 +107,7 @@ class TelaAtendimento:
                dado != "valor" or dado != "pago":
                 raise ValueError
         except ValueError:
-            print("Dado inválido! Dados: servico, cliente, funcionario, data, hora, valor, pago")
+            print("Dado inválido! Dados válidos: servico, cliente, funcionario, data, hora, valor, pago")
             self.__controle.abre_tela()
         if dado == "data":
             try:
@@ -144,12 +144,12 @@ class TelaAtendimento:
         return id, dado, valor
 
     def atendimento_cliente(self):
-        print(" --- Atendimentos por Cliente --- ")
+        print(" ---- Atendimentos por Cliente ---- ")
         cliente = input("Insira o nome do cliente: ")
         return cliente
 
     def atendimento_dia(self):
-        print(" --- Atendimentos por Dia --- ")
+        print(" ---- Atendimentos por Dia ---- ")
         try:
             data = input("Insira a data (DIA/MES/ANO): ")
             dia, mes, ano = map(int, data.split('/'))
@@ -167,9 +167,10 @@ class TelaAtendimento:
         print("Data e hora: "+str(data)+ ", ", str(hora))
         print("Valor: R$", str(valor))
         print("Pago: ", str(pago))
+        print("--------------------")
 
     def relatorio_mes(self):
-        print(" --- Relatório do Mês --- ")
+        print(" ---- Relatório do Mês ---- ")
         mes = input("Insira o mês (1-12): ")
         try:
             mes = int(mes)

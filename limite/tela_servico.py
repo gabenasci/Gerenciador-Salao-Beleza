@@ -18,7 +18,7 @@ class TelaServico:
                     print("Valores válidos: ", inteiros_validos)
 
     def tela_opcoes(self):
-        print(" ---- Servicos ---- ")
+        print(" ---- SERVIÇOS ---- ")
         print("Escolha a opção")
         print("1: Inclui Serviço")
         print("2: Exclui Serviço")
@@ -47,8 +47,8 @@ class TelaServico:
         print("Requisito:", requisito)
 
     def encontra_servico(self):
-        print(" ---- Exclusão de cliente ---- ")
-        nome = input("Nome do cliente que deseja excluir: ")
+        print(" ---- Exclusão de Serviço ---- ")
+        nome = input("Nome do serviço que deseja excluir: ")
         return nome
 
     '''
@@ -60,7 +60,7 @@ class TelaServico:
     '''
 
     def altera_dados_servico(self):
-        print(" --- Alteração de servico ---")
+        print(" ---- Alteração de Serviço ----")
         try:
             nome_servico = input("Nome do servico a ser alterado: ")
             if nome_servico not in self.__controle.servicos_nome():
@@ -86,7 +86,7 @@ class TelaServico:
             else:
                 raise ValueError
         except ValueError:
-            print("Dado inválido! Dados: nome, requisitos")
+            print("Dado inválido! Dados válidos: nome, requisitos")
             self.__controle.abre_tela()
         return nome_servico, dado, valor
 
