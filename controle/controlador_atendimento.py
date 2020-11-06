@@ -27,7 +27,7 @@ class ControladorAtendimento:
         dados_atendimento = self.__tela_atendimento.solicita_dados_atendimento()
         try:
             for obj in self.__atendimentos:
-                if obj.funcionario == dados_atendimento["funcionario"] and obj.data == dados_atendimento["data"] and \
+                if obj.funcionario.nome == dados_atendimento["funcionario"] and obj.data == dados_atendimento["data"] and \
                         obj.hora == dados_atendimento["hora"]:
                     raise FuncionarioIndisponivelExcecao
             for s in self.__controlador.servicos():
