@@ -5,7 +5,6 @@ from limite.tela_atendimento import TelaAtendimento
 from collections import Counter
 
 
-
 class ControladorAtendimento:
 
     def __init__(self, controlador_sistema):
@@ -65,8 +64,8 @@ class ControladorAtendimento:
             if atendimento.cliente.nome == cliente:
                 self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
                                                                  atendimento.cliente, atendimento.funcionario,
-                                                                atendimento.data, atendimento.hora, atendimento.valor,
-                                                                atendimento.pago)
+                                                                 atendimento.data, atendimento.hora, atendimento.valor,
+                                                                 atendimento.pago)
 
     def lista_atendimentos_dia(self):
         dia = self.__tela_atendimento.atendimento_dia()
@@ -117,3 +116,21 @@ class ControladorAtendimento:
 
     def retorna(self):
         self.__continua_exibindo_tela = False
+
+    def servicos(self):
+        servicos_str = []
+        for s in self.__controlador.servicos():
+            servicos_str.append(s.nome)
+        return servicos_str
+
+    def funcionarios(self):
+        funcionarios_str = []
+        for f in self.__controlador.funcionarios():
+            funcionarios_str.append(f.nome)
+        return funcionarios_str
+
+    def clientes(self):
+        clientes_str = []
+        for c in self.__controlador.clientes():
+            clientes_str.append(c.nome)
+        return clientes_str

@@ -1,4 +1,5 @@
 import datetime
+from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 
 class TelaAtendimento:
     def __init__(self, controlador_atendimento):
@@ -33,9 +34,27 @@ class TelaAtendimento:
 
     def solicita_dados_atendimento(self):
         print(" ---- Marcar Atendimento ---- ")
-        servico = input("Serviço a ser marcado: ")
-        cliente = input("Nome do cliente: ")
-        funcionario = input("Nome do funcionário: ")
+        try:
+            servico = input("Serviço a ser marcado: ")
+            if servico not in self.__controle.servicos():
+                raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
+            self.excecao(mensagem="Serviço não existe!")
+            self.__controle.abre_tela()
+        try:
+            cliente = input("Nome do cliente: ")
+            if cliente not in self.__controle.clientes():
+                raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
+            self.excecao(mensagem="Cliente não existe!")
+            self.__controle.abre_tela()
+        try:
+            funcionario = input("Nome do funcionário: ")
+            if funcionario not in self.__controle.funcionarios():
+                raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
+            self.excecao(mensagem="Funcionário não existe!")
+            self.__controle.abre_tela()
         try:
             data = input("Data do atendimento (DIA/MES/ANO): ")
             dia, mes, ano = map(int, data.split('/'))
@@ -44,25 +63,26 @@ class TelaAtendimento:
             data_atendimento = datetime.date(ano, mes, dia)
         except ValueError:
             print ("Data inválida!")
-            self.__controle.inclui_atendimento()
+            self.__controle.abre_tela()
         try:
             hora = input("Hora do atendimento (HH:MM): ")
             h, m = map(int, hora.split(':'))
             hora_atendimento = datetime.time(h, m)
         except ValueError:
             print("Horário inválido!")
-            self.__controle.inclui_atendimento()
+            self.__controle.abre_tela()
         valor = input("Valor do atendimento: R$")
         try:
             valor = float(valor)
         except ValueError:
             print("Valor float inválido")
+            self.__controle.abre_tela()
         pago = input("Pago agora (True/False):")
         try:
             pago = bool(pago)
         except ValueError:
             print("Valor booleano inválido")
-            self.__controle.inclui_atendimento()
+            self.__controle.abre_tela()
         dados_atendimento = {"servico": servico, "cliente": cliente, "funcionario": funcionario,
                                  "data": data_atendimento, "hora": hora_atendimento, "valor": valor, "pago": pago}
         return dados_atendimento
@@ -79,7 +99,7 @@ class TelaAtendimento:
             id = int(id)
         except ValueError:
             print("Tipo de valor inválido!")
-            self.__controle.altera_atendimento()
+            self.__controle.abre_tela()
         print("Dados: servico, cliente, funcionario, data, hora, valor, pago")
         try:
             dado = input("Dado a ser alterado: ")
@@ -88,7 +108,7 @@ class TelaAtendimento:
                 raise ValueError
         except ValueError:
             print("Dado inválido! Dados: servico, cliente, funcionario, data, hora, valor, pago")
-            self.__controle.altera_atendimento()
+            self.__controle.abre_tela()
         if dado == "data":
             try:
                 data = input("Insira a " + dado +" (DIA/MÊS/ANO): ")
@@ -96,7 +116,7 @@ class TelaAtendimento:
                 valor = datetime.date(ano, mes, dia)
             except ValueError:
                 print("Data inválida!")
-                self.__controle.altera_atendimento()
+                self.__controle.abre_tela()
         elif dado == "hora":
             try:
                 hora = input("Insira a "+ dado +"(HH:MM): ")
@@ -104,21 +124,21 @@ class TelaAtendimento:
                 valor = datetime.time(h, m)
             except ValueError:
                 print("Horário inválido!")
-                self.__controle.altera_atendimento()
+                self.__controle.abre_tela()
         elif dado == "pago":
             valor = input("Insira o "+dado+"(True/False): ")
             try:
                 valor = bool(valor)
             except ValueError:
                 print("Valor booleano inválido!")
-                self.__controle.altera_atendimento()
+                self.__controle.abre_tela()
         elif dado == "valor":
             valor = input("Insira o "+dado+": ")
             try:
                 valor = float(valor)
             except ValueError:
                 print("Valor float inválido!")
-                self.__controle.altera_atendimento()
+                self.__controle.abre_tela()
         else:
             valor = input("Insira o " + dado + ": ")
         return id, dado, valor
@@ -136,6 +156,7 @@ class TelaAtendimento:
             data_atendimento = datetime.date(ano, mes, dia)
         except ValueError:
             print("Data inválida!")
+            self.__controle.abre_tela()
         return data_atendimento
 
     def mostra_dados_atendimento(self, id: int, servico, cliente, funcionario, data, hora, valor, pago):
@@ -143,9 +164,9 @@ class TelaAtendimento:
         print("Servico: ", servico.nome)
         print("Cliente: ", cliente.nome)
         print("Funcionario: ", funcionario.nome)
-        print("Data e hora: "+data+ ", ", hora)
-        print("Valor: R$", valor)
-        print("Pago: ", pago)
+        print("Data e hora: "+str(data)+ ", ", str(hora))
+        print("Valor: R$", str(valor))
+        print("Pago: ", str(pago))
 
     def relatorio_mes(self):
         print(" --- Relatório do Mês --- ")
@@ -156,6 +177,7 @@ class TelaAtendimento:
                 raise ValueError
         except ValueError:
             print("Mês inválido!")
+            self.__controle.abre_tela()
         return mes
 
     def mostra_relatorio(self):
