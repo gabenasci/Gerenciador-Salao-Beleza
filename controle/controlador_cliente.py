@@ -61,3 +61,7 @@ class ControladorCliente:
 
     def retorna(self):
         self.__continua_exibindo_tela = False
+
+    @property
+    def clientes(self):
+        return self.__clientes

@@ -45,3 +45,9 @@ class ControladorSistema():
 
     def funcionarios(self):
         return self.__controlador_funcionario.funcionarios
+
+    def servicos(self):
+        return self.__controlador_servico.servicos
+
+    def clientes(self):
+        return self.__controlador_cliente.clientes

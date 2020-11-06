@@ -68,3 +68,7 @@ class ControladorServico:
 
     def retorna(self):
         self.__continua_exibindo_tela = False
+
+    @property
+    def servicos(self):
+        return self.__servicos
