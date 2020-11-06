@@ -2,6 +2,8 @@ from entidade.cliente import Cliente
 from limite.tela_cliente import TelaCliente
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
+from excecoes.cliente_menor_de_idade import ClienteMenorDeIdade
+from datetime import datetime
 
 class ControladorCliente:
 
@@ -27,10 +29,14 @@ class ControladorCliente:
             for obj in self.__clientes:
                 if obj.nome == dados_cliente["Nome"]:
                     raise ObjetoJaCadastrado
+            if datetime.now().year - dados_cliente["Data_nascimento"].year < 18:
+                raise ClienteMenorDeIdade
             novo_cliente = Cliente(dados_cliente["Nome"], dados_cliente["Data_nascimento"], dados_cliente["Telefone"], dados_cliente["Instagram"], dados_cliente["Tipo_cliente"], dados_cliente["Obs"])
             self.__clientes.append(novo_cliente)
         except ObjetoJaCadastrado:
             self.__tela_cliente.excecao(mensagem="Já existe um cliente cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
+        except ClienteMenorDeIdade:
+            self.__tela_cliente.excecao(mensagem="O cliente que está tentando cadastrar é menor de idade. Cadastre um responsável e adicione o nome do menor nas observações.")
 
     def exclui_cliente(self):
         nome_cliente = self.__tela_cliente.encontra_cliente()
