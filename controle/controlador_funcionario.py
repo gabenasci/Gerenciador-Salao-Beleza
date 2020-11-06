@@ -3,6 +3,7 @@ from entidade.funcionario import Funcionario
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 
+
 class ControladorFuncionario:
 
     def __init__(self, controlador_sistema):
@@ -14,7 +15,7 @@ class ControladorFuncionario:
     def abre_tela(self):
 
         switcher = {0: self.retorna, 1: self.inclui_funcionario, 2: self.exclui_funcionario, 3: self.lista_funcionarios,
-                    4: self.altera_funcionario, 5: self.habilita_funcionario}
+                    4: self.altera_funcionario}
 
         self.__continua_exibindo_tela = True
         while self.__continua_exibindo_tela:
@@ -73,14 +74,3 @@ class ControladorFuncionario:
         for f in self.__funcionarios:
             funcionarios_str.append(f.nome)
         return funcionarios_str
-
-    def habilita_funcionario(self):
-        funcionario, servico = self.__tela_funcionario.encontra_servico()
-        for f in self.__controlador.funcionarios():
-            if f.nome == funcionario:
-                print('passou funcionario')
-                for s in self.__servicos:
-                    print('passou servicos')
-                    if s.nome == servico:
-                        s.add_funcionario(f)
-                        print("chamou a funcao")

@@ -1,8 +1,8 @@
 from limite.tela_servico import TelaServico
 from entidade.servico import Servico
-from entidade.atendimento import Atendimento
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
+
 
 class ControladorServico:
     def __init__(self, controlador_sistema):
@@ -58,24 +58,12 @@ class ControladorServico:
         nome_servico, dado, valor_dado = self.__tela_servico.altera_dados_servico()
         for servico in self.__servicos:
             if servico.nome == nome_servico:
-                dados_servico = {"nome": servico.nome,
-                                     "requisito": servico.requisito}
+                dados_servico = {"nome": servico.nome, "requisito": servico.requisito}
                 dados_servico[dado] = valor_dado
                 self.__servicos.remove(servico)
                 servico_alterado = Servico(dados_servico["nome"], dados_servico["requisito"])
                 self.__servicos.append(servico_alterado)
-    '''
-    def habilita_funcionario(self):
-        funcionario, servico = self.__tela_servico.encontra_funcionario()
-        for f in self.__controlador.funcionarios():
-            if f.nome == funcionario:
-                print('passou funcionario')
-                for s in self.__servicos:
-                    print('passou servicos')
-                    if s.nome == servico:
-                        s.add_funcionario(f)
-                        print("chamou a funcao")
-    '''
+
     def retorna(self):
         self.__continua_exibindo_tela = False
 

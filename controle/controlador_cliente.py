@@ -69,8 +69,6 @@ class ControladorCliente:
                     raise ObjetoNaoExisteExcecao
         except ObjetoNaoExisteExcecao: self.__tela_cliente.excecao(mensagem="Não existe nenhum cliente com esse nome. Por favor, confira a lista de clientes cadastrados")
 
-
-
     def retorna(self):
         self.__continua_exibindo_tela = False
 

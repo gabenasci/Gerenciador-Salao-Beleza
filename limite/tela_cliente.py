@@ -67,7 +67,6 @@ class TelaCliente:
         nome = input("Nome do cliente que deseja excluir: ")
         return nome
 
-
     def altera_dados_cliente(self):
         print(" ---- Alteração de Cliente ----")
         try:

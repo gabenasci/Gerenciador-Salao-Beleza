@@ -51,14 +51,6 @@ class TelaServico:
         nome = input("Nome do serviço que deseja excluir: ")
         return nome
 
-    '''
-    def encontra_funcionario(self):
-        print(" ---- Habilita funcionário ---- ")
-        funcionario = input("Nome do funcionário que deseja habilitar: ")
-        servico = input("Para qual serviço deseja habilitar esse funcionário: ")
-        return funcionario, servico
-    '''
-
     def altera_dados_servico(self):
         print(" ---- Alteração de Serviço ----")
         try:

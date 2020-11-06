@@ -1,6 +1,7 @@
 import datetime
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 
+
 class TelaFuncionario:
     def __init__(self, controlador_funcionario):
         self.__controlador = controlador_funcionario
@@ -25,10 +26,9 @@ class TelaFuncionario:
         print("2: Exclui Funcionário")
         print("3: Lista Funcionários")
         print("4: Altera dados do Funcionário")
-        print("5: Habilita funcionário para serviço")
         print("0: Retorna")
 
-        opcao = self.le_num_inteiro("Escolha a opção: ", [1, 2, 3, 4, 5, 0])
+        opcao = self.le_num_inteiro("Escolha a opção: ", [1, 2, 3, 4, 0])
         return opcao
 
     def solicita_dados_funcionario(self):
@@ -108,10 +108,3 @@ class TelaFuncionario:
 
     def excecao(self, mensagem):
         print(mensagem)
-
-    def encontra_servico(self):
-        print(" ---- Habilita funcionário ---- ")
-        funcionario = input("Nome do funcionário que deseja habilitar: ")
-        servico = input("Para qual serviço deseja habilitar esse funcionário: ")
-        return funcionario, servico
-
