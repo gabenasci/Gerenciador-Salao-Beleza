@@ -16,7 +16,7 @@ class TelaServico:
                     print("Valores válidos: ", inteiros_validos)
 
     def tela_opcoes(self):
-        print(" ---- Cadastro de Servicos ---- ")
+        print(" ---- Servicos ---- ")
         print("Escolha a opção")
         print("1: Inclui Serviço")
         print("2: Exclui Serviço")
