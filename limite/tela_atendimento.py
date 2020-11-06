@@ -84,7 +84,7 @@ class TelaAtendimento:
 
     def relatorio_mes(self):
         print(" --- Relatório do Mês --- ")
-        mes = input("Insira o mês (01-12):")
+        mes = int(input("Insira o mês (1-12): "))
         return mes
 
     def mostra_relatorio(self):

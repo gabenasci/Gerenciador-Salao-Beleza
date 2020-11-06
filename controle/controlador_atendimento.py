@@ -2,6 +2,8 @@ from excecoes.funcionario_indisponivel import FuncionarioIndisponivelExcecao
 from excecoes.atendimento_nao_existe import AtendimentoNaoExisteExcecao
 from entidade.atendimento import Atendimento
 from limite.tela_atendimento import TelaAtendimento
+from collections import Counter
+
 
 class ControladorAtendimento:
 
@@ -106,9 +108,11 @@ class ControladorAtendimento:
         atendimentos_mes = []
         for atendimento in self.__atendimentos:
             if atendimento.data.month == mes:
-                atendimentos_mes.append(atendimento.servico)
-                for i in atendimentos_mes:
-                    print(i)
+                atendimentos_mes.append(atendimento.servico.nome)
+        contador_servicos = dict(Counter(atendimentos_mes))
+        print("--- Número de atendimentos no mês "+str(mes)+": ---")
+        for chave, valor in contador_servicos.items():
+            print(chave+':', valor)
 
     def retorna(self):
         self.__continua_exibindo_tela = False
