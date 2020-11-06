@@ -14,7 +14,7 @@ class ControladorAtendimento:
         self.__continua_exibindo_tela = True
 
     def abre_tela(self):
-        switcher = {0: self.retorna, 1: self.inclui_atendimento, 2: self.exclui_atendimento, 3: self.altera_atendimentos,
+        switcher = {0: self.retorna, 1: self.inclui_atendimento, 2: self.exclui_atendimento, 3: self.altera_atendimento,
                     4: self.lista_atendimentos_cliente, 5: self.lista_atendimentos_dia, 6: self.gera_relatorio_mes}
 
         self.__continua_exibindo_tela = True
@@ -75,7 +75,7 @@ class ControladorAtendimento:
                                                                  atendimento.cliente, atendimento.funcionario,
                                                                  atendimento.data, atendimento.hora,
                                                                  atendimento.valor, atendimento.pago)
-    def altera_atendimentos(self):
+    def altera_atendimento(self):
         id_atendimento, dado, valor_dado = self.__tela_atendimento.altera_dados_atendimento()
         for atendimento in self.__atendimentos:
             if atendimento.id == id_atendimento:
