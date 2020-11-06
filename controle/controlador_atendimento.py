@@ -5,6 +5,7 @@ from limite.tela_atendimento import TelaAtendimento
 from collections import Counter
 
 
+
 class ControladorAtendimento:
 
     def __init__(self, controlador_sistema):
