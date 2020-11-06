@@ -82,3 +82,9 @@ class ControladorServico:
     @property
     def servicos(self):
         return self.__servicos
+
+    def servicos_nome(self):
+        servicos_str = []
+        for s in self.__servicos:
+            servicos_str.append(s.nome)
+        return servicos_str

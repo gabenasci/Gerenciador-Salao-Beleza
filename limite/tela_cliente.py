@@ -67,6 +67,7 @@ class TelaCliente:
         nome = input("Nome do cliente que deseja excluir: ")
         return nome
 
+
     def altera_dados_cliente(self):
         print(" --- Alteração de cliente ---")
         try:
@@ -102,6 +103,39 @@ class TelaCliente:
             print("Dado inválido! Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
             self.__controle.abre_tela()
         return nome_cliente, dado, valor
+    '''
+
+    def altera_dados_cliente(self):
+        print(" --- Alteração de cliente ---")
+        nome_cliente = input("Nome do cliente a ser alterado: ")
+        print("Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
+        try:
+            dado = input("Dado a ser alterado: ")
+            if dado == "data_nascimento":
+                try:
+                    data = input("Insira a " + dado +" (DIA/MÊS/ANO): ")
+                    dia, mes, ano = map(int, data.split('/'))
+                    valor = datetime.date(ano, mes, dia)
+                except ValueError:
+                    print("Data inválida!")
+                    self.__controle.altera_cliente()
+            elif dado == "telefone":
+                valor = input("Insira o "+dado+":")
+                try:
+                    valor = int(valor)
+                except ValueError:
+                    print("Telefone precisa ser um número inteiro!")
+                    self.__controle.altera_cliente()
+            elif dado == "nome" or dado == "instagram" or dado == "tipo_cliente" or dado == "obs":
+                valor = input("Insira o " + dado + ": ")
+            else:
+                raise ValueError
+        except ValueError:
+            print("Dado inválido! Dados: nome, data_nascimento, telefone, instagram, tipo_cliente, obs")
+            self.__controle.abre_tela()
+        return nome_cliente, dado, valor
+    
+    '''
 
     def excecao(self, mensagem):
         print(mensagem)

@@ -1,3 +1,5 @@
+from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+
 class TelaServico:
     def __init__(self, controlador_servico):
         self.__controle = controlador_servico
@@ -31,7 +33,14 @@ class TelaServico:
         print(" ---- Inclusão de Serviço ---- ")
         nome = input("Nome do serviço: ")
         ferramenta = input("Ferramenta necessária (Kit unha, Kit cabelo ou Kit pele): ")
-        return {"Nome": nome, "Requisito": ferramenta}
+        try:
+            if ferramenta == "kit unha" or ferramenta == "kit cabelo" or ferramenta == "kit pele":
+                return {"Nome": nome, "Requisito": ferramenta}
+            else:
+                raise ValueError
+        except ValueError:
+                    print("Requisitos disponíveis: Kit unha, Kit cabelo e Kit pele. Para mais ferramentas contate o administrador.")
+                    self.__controle.abre_tela()
 
     def mostra_dados_servico(self, nome: str, requisito: str):
         print("Serviço:", nome)
@@ -52,10 +61,33 @@ class TelaServico:
 
     def altera_dados_servico(self):
         print(" --- Alteração de servico ---")
-        nome_servico = input("Nome do servico a ser alterado: ")
+        try:
+            nome_servico = input("Nome do servico a ser alterado: ")
+            if nome_servico not in self.__controle.servicos_nome():
+                raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao:
+            self.excecao(mensagem="Serviço não existe!")
+            self.__controle.abre_tela()
         print("Dados: nome, requisito")
-        dado = input("Dado a ser alterado: ")
-        valor = input("Insira o " + dado + ": ")
+        try:
+            dado = input("Dado a ser alterado: ")
+            if dado == "requisito":
+                try:
+                    valor = input("Insira o " + dado + ": ")
+                    if valor == "kit unha" or valor == "kit cabelo" or valor == "kit pele":
+                        return nome_servico, dado, valor
+                    else:
+                        raise ValueError
+                except ValueError:
+                    print("Requisitos disponíveis: Kit unha, Kit cabelo e Kit pele. Para mais ferramentas contate o administrador")
+                    self.__controle.abre_tela()
+            elif dado == "nome":
+                valor = input("Insira o " + dado + ": ")
+            else:
+                raise ValueError
+        except ValueError:
+            print("Dado inválido! Dados: nome, requisitos")
+            self.__controle.abre_tela()
         return nome_servico, dado, valor
 
     def excecao(self, mensagem):

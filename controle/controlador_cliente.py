@@ -49,15 +49,21 @@ class ControladorCliente:
 
     def altera_cliente(self):
         nome_cliente, dado, valor_dado = self.__tela_cliente.altera_dados_cliente()
-        for cliente in self.__clientes:
-            if cliente.nome == nome_cliente:
-                dados_cliente = {"nome": cliente.nome, "data_nascimento": cliente.data_nascimento, "telefone": cliente.telefone,
+        try:
+            for cliente in self.__clientes:
+                if cliente.nome == nome_cliente:
+                    dados_cliente = {"nome": cliente.nome, "data_nascimento": cliente.data_nascimento, "telefone": cliente.telefone,
                                      "instagram": cliente.instagram, "tipo_cliente": cliente.tipo_cliente, "obs": cliente.obs}
-                dados_cliente[dado] = valor_dado
-                self.__clientes.remove(cliente)
-                cliente_alterado = Cliente(dados_cliente["nome"], dados_cliente["data_nascimento"], dados_cliente["telefone"],
+                    dados_cliente[dado] = valor_dado
+                    self.__clientes.remove(cliente)
+                    cliente_alterado = Cliente(dados_cliente["nome"], dados_cliente["data_nascimento"], dados_cliente["telefone"],
                                            dados_cliente["instagram"], dados_cliente["tipo_cliente"], dados_cliente["obs"])
-                self.__clientes.append(cliente_alterado)
+                    self.__clientes.append(cliente_alterado)
+                else:
+                    raise ObjetoNaoExisteExcecao
+        except ObjetoNaoExisteExcecao: self.__tela_cliente.excecao(mensagem="Não existe nenhum cliente com esse nome. Por favor, confira a lista de clientes cadastrados")
+
+
 
     def retorna(self):
         self.__continua_exibindo_tela = False
