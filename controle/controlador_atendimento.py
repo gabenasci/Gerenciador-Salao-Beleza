@@ -30,15 +30,18 @@ class ControladorAtendimento:
                 if obj.funcionario.nome == dados_atendimento["funcionario"] and obj.data == dados_atendimento["data"] and \
                         obj.hora == dados_atendimento["hora"]:
                     raise FuncionarioIndisponivelExcecao
-            for s in self.__controlador.servicos():
-                if s.nome == dados_atendimento["servico"]:
-                    dados_atendimento["servico"] = s
-            for c in self.__controlador.clientes():
-                if c.nome == dados_atendimento["cliente"]:
-                    dados_atendimento["cliente"] = c
-            for f in self.__controlador.funcionarios():
-                if f.nome == dados_atendimento["funcionario"]:
-                    dados_atendimento["funcionario"] = f
+            #servico = self.__controlador.controlador_servico.busca_servico_nome(dados_atendimento["servico"])
+
+            for servico in self.__controlador.controlador_servico.servicos:
+                if servico.nome == dados_atendimento["servico"]:
+                    dados_atendimento["servico"] = servico
+            #dados_atendimento["servico"] = servico
+            for cliente in self.__controlador.controlador_cliente.clientes:
+                if cliente.nome == dados_atendimento["cliente"]:
+                    dados_atendimento["cliente"] = cliente
+            for funcionario in self.__controlador.controlador_funcionario.funcionarios:
+                if funcionario.nome == dados_atendimento["funcionario"]:
+                    dados_atendimento["funcionario"] = funcionario
             novo_atendimento = Atendimento(dados_atendimento["servico"], dados_atendimento["cliente"], dados_atendimento["funcionario"],
                                            dados_atendimento["data"], dados_atendimento["hora"], dados_atendimento["valor"], dados_atendimento["pago"])
             self.__atendimentos.append(novo_atendimento)
@@ -85,23 +88,24 @@ class ControladorAtendimento:
                                      "hora": atendimento.hora, "valor": atendimento.valor,
                                      "pago": atendimento.pago}
                 dados_atendimento[dado] = valor_dado
-                for s in self.__controlador.servicos():
-                    if s.nome == dados_atendimento["servico"]:
-                        dados_atendimento["servico"] = s
-                for c in self.__controlador.clientes():
-                    if c.nome == dados_atendimento["cliente"]:
-                        dados_atendimento["cliente"] = c
-                for f in self.__controlador.funcionarios():
-                    if f.nome == dados_atendimento["funcionario"]:
-                        dados_atendimento["funcionario"] = f
+                for servico in self.__controlador.controlador_servico.servicos:
+                    if servico.nome == dados_atendimento["servico"]:
+                        dados_atendimento["servico"] = servico
+                for cliente in self.__controlador.controlador_cliente.clientes:
+                    if cliente.nome == dados_atendimento["cliente"]:
+                        dados_atendimento["cliente"] = cliente
+                for funcionario in self.__controlador.controlador_funcionario.funcionarios:
+                    if funcionario.nome == dados_atendimento["funcionario"]:
+                        dados_atendimento["funcionario"] = funcionario
+                index = self.__atendimentos.index(atendimento)
                 self.__atendimentos.remove(atendimento)
                 atendimento_alterado = Atendimento(dados_atendimento["servico"],
                                                    dados_atendimento["cliente"],
                                                    dados_atendimento["funcionario"], dados_atendimento["data"],
                                                    dados_atendimento["hora"], dados_atendimento["valor"],
                                                    dados_atendimento["pago"])
-                self.__atendimentos.append(atendimento_alterado)
-                atendimento_alterado.id = len(self.__atendimentos)
+                self.__atendimentos.insert(index, atendimento_alterado)
+                atendimento_alterado.id = id_atendimento
 
     def gera_relatorio_mes(self):
         mes = self.__tela_atendimento.relatorio_mes()
@@ -119,18 +123,18 @@ class ControladorAtendimento:
 
     def servicos(self):
         servicos_str = []
-        for s in self.__controlador.servicos():
+        for s in self.__controlador.controlador_servico.servicos:
             servicos_str.append(s.nome)
         return servicos_str
 
     def clientes(self):
         clientes_str = []
-        for c in self.__controlador.clientes():
+        for c in self.__controlador.controlador_cliente.clientes:
             clientes_str.append(c.nome)
         return clientes_str
 
     def funcionarios(self):
         funcionarios_str = []
-        for c in self.__controlador.funcionarios():
+        for c in self.__controlador.controlador_funcionario.funcionarios:
             funcionarios_str.append(c.nome)
         return funcionarios_str

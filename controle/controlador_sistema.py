@@ -43,11 +43,18 @@ class ControladorSistema():
 
             funcao_escolhida()
 
-    def funcionarios(self):
-        return self.__controlador_funcionario.funcionarios
+    @property
+    def controlador_servico(self):
+        return self.__controlador_servico
 
-    def servicos(self):
-        return self.__controlador_servico.servicos
+    @property
+    def controlador_cliente(self):
+        return self.__controlador_cliente
 
-    def clientes(self):
-        return self.__controlador_cliente.clientes
+    @property
+    def controlador_funcionario(self):
+        return self.__controlador_funcionario
+
+    @property
+    def controlador_atendimento(self):
+        return self.__controlador_atendimento

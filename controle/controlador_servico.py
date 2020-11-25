@@ -76,3 +76,9 @@ class ControladorServico:
         for s in self.__servicos:
             servicos_str.append(s.nome)
         return servicos_str
+
+    def busca_servico_nome(self, nome_servico):
+        for servico in self.__servicos:
+            if servico.nome == nome_servico:
+                return nome_servico
+
