@@ -12,13 +12,22 @@ class TelaFuncionario:
     def init_components(self):
         sg.ChangeLookAndFeel('Reddit')
         layout = [
-                    [sg.Text('Teste', size=(30, 1), font=("Helvetica", 25))],
-                    [sg.Text('Texto e espaço para responder: ')],
-                    [sg.InputText('Texto de resposta', key='it_nome')],
-                    [sg.Button('funcionario'), sg.Cancel('Cancelar')]
+                    [sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
+                    [sg.Text('Nome: ', size=(40, 1)), sg.InputText('', key='it_nome')],
+                    [sg.Text('Data de Nascimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText('', key='it_data_nascimento')],
+                    [sg.Text('Telefone: ', size=(40, 1)), sg.InputText('', key='it_telefone')],
+                    [sg.Text('Data de contratação: ', size=(40, 1)), sg.InputText('', key='it_data_contratacao')],
+                    [sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Listar'), sg.Button('Alterar'), sg.Cancel('Voltar')]
                 ]
-        self.__window = sg.Window('Titulo da tela', default_button_element_size=(40, 1)).Layout(layout)
+        self.__window = sg.Window('Cadastro de funcionário', default_button_element_size=(40, 1)).Layout(layout)
 
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+
+
+    def close(self):
+        self.__window.Close()
 
     def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
         while True:

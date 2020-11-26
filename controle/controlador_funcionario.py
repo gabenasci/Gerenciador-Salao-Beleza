@@ -2,7 +2,7 @@ from limite.tela_funcionario import TelaFuncionario
 from entidade.funcionario import Funcionario
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
-
+import PySimpleGUI as sg
 
 class ControladorFuncionario:
     __instance = None
@@ -20,14 +20,16 @@ class ControladorFuncionario:
 
     def abre_tela(self):
 
-        switcher = {0: self.retorna, 1: self.inclui_funcionario, 2: self.exclui_funcionario, 3: self.lista_funcionarios,
-                    4: self.altera_funcionario}
+        switcher = {'Voltar': self.retorna, 'Incluir': self.inclui_funcionario, 'Excluir': self.exclui_funcionario, 'Listar': self.lista_funcionarios,
+                    'Alterar': self.altera_funcionario}
 
-        self.__continua_exibindo_tela = True
-        while self.__continua_exibindo_tela:
-            opcao = self.__tela_funcionario.tela_opcoes()
-            funcao_escolhida = switcher[opcao]
-            funcao_escolhida()
+        #self.__continua_exibindo_tela = True
+        #while self.__continua_exibindo_tela:
+        self.__tela_funcionario.init_components()
+        button, values = self.__tela_funcionario.open()
+        funcao_escolhida = switcher[button]
+        funcao_escolhida()
+
 
     def inclui_funcionario(self):
         dados_funcionario = self.__tela_funcionario.solicita_dados_funcionario()
@@ -69,7 +71,8 @@ class ControladorFuncionario:
             self.__tela_funcionario.mostra_dados_funcionario(funcionario.nome, funcionario.data_nascimento, funcionario.data_contratacao)
 
     def retorna(self):
-        self.__continua_exibindo_tela = False
+        #self.__continua_exibindo_tela = False
+        self.__tela_funcionario.close()
 
     @property
     def funcionarios(self):
