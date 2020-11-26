@@ -1,10 +1,24 @@
 import datetime
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+import PySimpleGUI as sg
 
 
 class TelaFuncionario:
     def __init__(self, controlador_funcionario):
         self.__controlador = controlador_funcionario
+        self.__window = None
+        self.init_components()
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('Reddit')
+        layout = [
+                    [sg.Text('Teste', size=(30, 1), font=("Helvetica", 25))],
+                    [sg.Text('Texto e espaço para responder: ')],
+                    [sg.InputText('Texto de resposta', key='it_nome')],
+                    [sg.Button('funcionario'), sg.Cancel('Cancelar')]
+                ]
+        self.__window = sg.Window('Titulo da tela', default_button_element_size=(40, 1)).Layout(layout)
+
 
     def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
         while True:

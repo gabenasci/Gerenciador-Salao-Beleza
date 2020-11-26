@@ -1,30 +1,30 @@
+import PySimpleGUI as sg
 
 
 class TelaSistema():
+
     def __init__(self, controlador_sistema):
         self.__controlador = controlador_sistema
+        self.__window = None
+        self.init_components()
 
-    def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
-        while True:
-            valor_lido = input(mensagem)
-            try:
-                inteiro = int(valor_lido)
-                if inteiros_validos and inteiro not in inteiros_validos:
-                    raise ValueError
-                return inteiro
-            except ValueError:
-                print("Valor incorreto: Digite um valor numérico inteiro válido")
-                if inteiros_validos:
-                    print("Valores válidos: ", inteiros_validos)
+    def init_components(self):
+        sg.ChangeLookAndFeel('Reddit')
+        layout = [
+                    [sg.Text('Sistema Salão de Beleza', size=(30, 1), font=("Helvetica", 25))],
+                    [sg.Text('Escolha a opção: ')],
+                    #[sg.InputText('Texto de resposta', key='it_nome')],
+                    [sg.Button('Funcionario'), sg.Button('Cliente'),  sg.Button('Servico')],
+                    [sg.Button('Atendimento'), sg.Cancel('Cancelar')]
+                ]
+        self.__window = sg.Window('Titulo da tela', default_button_element_size=(40, 1)).Layout(layout)
 
-    def tela_opcoes(self):
-        print("===== Tela de Opções =====")
-        print("Escolha a opção:")
-        print("1: Funcionario")
-        print("2: Cliente")
-        print("3: Serviços")
-        print("4: Atendimentos")
-        print("0: Encerrar o Sistema")
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
 
-        opcao = self.le_num_inteiro("Escolha a opção: ", [1, 2, 3, 4, 0])
-        return opcao
+    def close(self):
+        self.__window.Close()
+
+    def show_message(self, titulo: str, mensagem: str):
+        sg.Popup(titulo, mensagem)
