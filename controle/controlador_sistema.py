@@ -14,8 +14,16 @@ class ControladorSistema():
         self.__controlador_atendimento = ControladorAtendimento(self)
 
     def inicializa_sistema(self):
-        #self.abre_tela()
         self.abre_tela()
+        '''
+        while True:
+            self.abre_tela()
+            if event == 'Gravar':
+                print('Gravar funcionando')
+            if event == sg.WIN_CLOSED or event == 'Exit':
+                break
+            print(event)
+        '''
 
     def opcao_funcionarios(self):
         self.__controlador_funcionario.abre_tela()
@@ -40,12 +48,9 @@ class ControladorSistema():
         while True:
             event, values = self.__tela_sistema.open()
 
-
             funcao_escolhida = lista_opcoes[event]
 
             funcao_escolhida()
-            if event == sg.WIN_CLOSED or event == 'Exit':
-                break
 
     @property
     def controlador_servico(self):
