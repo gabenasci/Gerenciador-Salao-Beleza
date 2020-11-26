@@ -6,6 +6,7 @@ from controle.controlador_atendimento import ControladorAtendimento
 import PySimpleGUI as sg
 
 class ControladorSistema():
+    __instance = None
 
     def __init__(self):
         self.__tela_sistema = TelaSistema(self)
@@ -13,6 +14,11 @@ class ControladorSistema():
         self.__controlador_servico = ControladorServico(self)
         self.__controlador_funcionario = ControladorFuncionario(self)
         self.__controlador_atendimento = ControladorAtendimento(self)
+
+    def __new__(cls):
+        if ControladorSistema.__instance is None:
+            ControladorSistema.__instance = object.__new__(cls)
+        return ControladorSistema.__instance
 
     def inicializa_sistema(self):
         self.abre_tela()
@@ -32,9 +38,9 @@ class ControladorSistema():
                         'Cancelar': self.opcao_encerra}
 
         while True:
-            event, values = self.__tela_sistema.open()
+            button, values = self.__tela_sistema.open()
 
-            funcao_escolhida = lista_opcoes[event]
+            funcao_escolhida = lista_opcoes[button]
 
             funcao_escolhida()
 

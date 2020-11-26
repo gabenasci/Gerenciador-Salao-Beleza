@@ -5,12 +5,19 @@ from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 
 
 class ControladorServico:
+    __instance = None
+
     def __init__(self, controlador_sistema):
         self.__servicos = []
 
         self.__controlador = controlador_sistema
         self.__tela_servico = TelaServico(self)
         self.__continua_exibindo_tela = True
+
+    def __new__(cls, controlador_sistema):
+        if ControladorServico.__instance is None:
+            ControladorServico.__instance = object.__new__(cls)
+        return ControladorServico.__instance
 
     def abre_tela(self):
         switcher = {0: self.retorna, 1: self.inclui_servico, 2: self.exclui_servico, 3: self.lista_servicos,

@@ -6,6 +6,7 @@ from excecoes.cliente_menor_de_idade import ClienteMenorDeIdade
 from datetime import datetime
 
 class ControladorCliente:
+    __instance = None
 
     def __init__(self, controlador_sistema):
         self.__clientes = []
@@ -13,6 +14,11 @@ class ControladorCliente:
         self.__controlador = controlador_sistema
         self.__tela_cliente = TelaCliente(self)
         self.__continua_exibindo_tela = True
+
+    def __new__(cls, controlador_sistema):
+        if ControladorCliente.__instance is None:
+            ControladorCliente.__instance = object.__new__(cls)
+        return ControladorCliente.__instance
 
     def abre_tela(self):
         switcher = {0: self.retorna, 1: self.inclui_cliente, 2: self.exclui_cliente, 3: self.lista_clientes, 4: self.altera_cliente}

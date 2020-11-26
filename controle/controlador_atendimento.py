@@ -6,12 +6,18 @@ from collections import Counter
 
 
 class ControladorAtendimento:
+    __instance = None
 
     def __init__(self, controlador_sistema):
         self.__atendimentos = []
         self.__controlador = controlador_sistema
         self.__tela_atendimento = TelaAtendimento(self)
         self.__continua_exibindo_tela = True
+
+    def __new__(cls, controlador_sistema):
+        if ControladorAtendimento.__instance is None:
+            ControladorAtendimento.__instance = object.__new__(cls)
+        return ControladorAtendimento.__instance
 
     def abre_tela(self):
         switcher = {0: self.retorna, 1: self.inclui_atendimento, 2: self.exclui_atendimento, 3: self.altera_atendimento,

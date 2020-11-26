@@ -79,7 +79,10 @@ class TelaAtendimento:
             self.__controle.abre_tela()
         pago = input("Pago agora (True/False):")
         try:
-            pago = bool(pago)
+            if pago == "True":
+                pago = True
+            elif pago == "False":
+                pago = False
         except ValueError:
             print("Valor booleano inválido")
             self.__controle.abre_tela()
