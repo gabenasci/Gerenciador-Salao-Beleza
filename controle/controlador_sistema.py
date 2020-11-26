@@ -6,6 +6,7 @@ from controle.controlador_atendimento import ControladorAtendimento
 import PySimpleGUI as sg
 
 class ControladorSistema():
+
     def __init__(self):
         self.__tela_sistema = TelaSistema(self)
         self.__controlador_cliente = ControladorCliente(self)
@@ -25,6 +26,18 @@ class ControladorSistema():
             print(event)
         '''
 
+    def abre_tela(self):
+        lista_opcoes = {'Funcionario': self.opcao_funcionarios, 'Cliente': self.opcao_clientes,
+                        'Servico': self.opcao_servicos, 'Atendimento': self.opcao_atendimentos,
+                        'Cancelar': self.opcao_encerra}
+
+        while True:
+            event, values = self.__tela_sistema.open()
+
+            funcao_escolhida = lista_opcoes[event]
+
+            funcao_escolhida()
+
     def opcao_funcionarios(self):
         self.__controlador_funcionario.abre_tela()
 
@@ -39,18 +52,6 @@ class ControladorSistema():
 
     def opcao_encerra(self):
         exit(0)
-
-    def abre_tela(self):
-        lista_opcoes = {'Funcionario': self.opcao_funcionarios, 'Cliente': self.opcao_clientes,
-                        'Servico': self.opcao_servicos, 'Atendimento': self.opcao_atendimentos,
-                        0: self.opcao_encerra}
-
-        while True:
-            event, values = self.__tela_sistema.open()
-
-            funcao_escolhida = lista_opcoes[event]
-
-            funcao_escolhida()
 
     @property
     def controlador_servico(self):
