@@ -49,7 +49,8 @@ class ControladorAtendimento:
                 if funcionario.nome == dados_atendimento["funcionario"]:
                     dados_atendimento["funcionario"] = funcionario
             novo_atendimento = Atendimento(dados_atendimento["servico"], dados_atendimento["cliente"], dados_atendimento["funcionario"],
-                                           dados_atendimento["data"], dados_atendimento["hora"], dados_atendimento["valor"], dados_atendimento["pago"])
+                                           dados_atendimento["data"], dados_atendimento["hora"], dados_atendimento["valor"], dados_atendimento["pago"],
+                                           dados_atendimento["realizado"])
             self.__atendimentos.append(novo_atendimento)
             novo_atendimento.id = len(self.__atendimentos)
         except FuncionarioIndisponivelExcecao:
@@ -74,7 +75,7 @@ class ControladorAtendimento:
                 self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
                                                                  atendimento.cliente, atendimento.funcionario,
                                                                  atendimento.data, atendimento.hora, atendimento.valor,
-                                                                 atendimento.pago)
+                                                                 atendimento.pago, atendimento.realizado)
 
     def lista_atendimentos_dia(self):
         dia = self.__tela_atendimento.atendimento_dia()
@@ -83,7 +84,7 @@ class ControladorAtendimento:
                 self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
                                                                  atendimento.cliente, atendimento.funcionario,
                                                                  atendimento.data, atendimento.hora,
-                                                                 atendimento.valor, atendimento.pago)
+                                                                 atendimento.valor, atendimento.pago, atendimento.realizado)
     def altera_atendimento(self):
         id_atendimento, dado, valor_dado = self.__tela_atendimento.altera_dados_atendimento()
         for atendimento in self.__atendimentos:
@@ -92,7 +93,7 @@ class ControladorAtendimento:
                                      "cliente": atendimento.cliente,
                                      "funcionario": atendimento.funcionario, "data": atendimento.data,
                                      "hora": atendimento.hora, "valor": atendimento.valor,
-                                     "pago": atendimento.pago}
+                                     "pago": atendimento.pago, "realizado": atendimento.realizado}
                 dados_atendimento[dado] = valor_dado
                 for servico in self.__controlador.controlador_servico.servicos:
                     if servico.nome == dados_atendimento["servico"]:
@@ -109,9 +110,11 @@ class ControladorAtendimento:
                                                    dados_atendimento["cliente"],
                                                    dados_atendimento["funcionario"], dados_atendimento["data"],
                                                    dados_atendimento["hora"], dados_atendimento["valor"],
-                                                   dados_atendimento["pago"])
+                                                   dados_atendimento["pago"], dados_atendimento["realizado"])
                 self.__atendimentos.insert(index, atendimento_alterado)
                 atendimento_alterado.id = id_atendimento
+
+
 
     def gera_relatorio_mes(self):
         mes = self.__tela_atendimento.relatorio_mes()

@@ -8,7 +8,7 @@ from entidade.pagamento import Pagamento
 class Atendimento:
 
     def __init__(self, servico: Servico, cliente: Cliente, funcionario: Funcionario, data: datetime.date,
-                 hora: datetime.time, valor: float, pago: bool):
+                 hora: datetime.time, valor: float, pago: bool, realizado: bool):
         if isinstance(servico, Servico):
             self.__servico = servico
         if isinstance(cliente, Cliente):
@@ -22,6 +22,8 @@ class Atendimento:
         if isinstance(valor, float) and isinstance(pago, bool):
             self.__pagamento = Pagamento(valor, pago)
         self.__id = 0
+        if isinstance(realizado, bool):
+            self.__realizado = realizado
 
     @property
     def servico(self):
@@ -78,3 +80,7 @@ class Atendimento:
     @property
     def pago(self):
         return self.__pagamento.pago
+
+    @property
+    def realizado(self):
+        return self.__realizado

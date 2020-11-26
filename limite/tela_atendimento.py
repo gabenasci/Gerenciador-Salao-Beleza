@@ -86,8 +86,10 @@ class TelaAtendimento:
         except ValueError:
             print("Valor booleano inválido")
             self.__controle.abre_tela()
+        realizado = False
         dados_atendimento = {"servico": servico, "cliente": cliente, "funcionario": funcionario,
-                                 "data": data_atendimento, "hora": hora_atendimento, "valor": valor, "pago": pago}
+                                 "data": data_atendimento, "hora": hora_atendimento, "valor": valor, "pago": pago,
+                             "realizado": realizado}
         return dados_atendimento
 
     def encontra_atendimento(self):
@@ -103,7 +105,7 @@ class TelaAtendimento:
         except ValueError:
             print("Tipo de valor inválido! Insira um número inteiro.")
             self.__controle.abre_tela()
-        print("Dados: servico, cliente, funcionario, data, hora, valor, pago")
+        print("Dados: servico, cliente, funcionario, data, hora, valor, pago, realizado")
         try:
             dado = input("Dado a ser alterado: ")
             if dado == "data":
@@ -140,10 +142,16 @@ class TelaAtendimento:
                     self.__controle.abre_tela()
             elif dado == "cliente" or dado == "servico" or dado == "funcionario":
                 valor = input("Insira o " + dado + ": ")
+            elif dado == "realizado":
+                valor = input("Atendimento foi realizado? (True/False): ")
+                if valor == "True":
+                    valor = True
+                elif valor == "False":
+                    valor = False
             else:
                 raise ValueError
         except ValueError:
-            print("Dado inválido! Dados válidos: servico, cliente, funcionario, data, hora, valor, pago")
+            print("Dado inválido! Dados válidos: servico, cliente, funcionario, data, hora, valor, pago, realizado")
             self.__controle.abre_tela()
         return id, dado, valor
 
@@ -163,7 +171,7 @@ class TelaAtendimento:
             self.__controle.abre_tela()
         return data_atendimento
 
-    def mostra_dados_atendimento(self, id: int, servico, cliente, funcionario, data, hora, valor, pago):
+    def mostra_dados_atendimento(self, id: int, servico, cliente, funcionario, data, hora, valor, pago, realizado):
         print("ID: ", id)
         print("Servico: ", servico.nome)
         print("Cliente: ", cliente.nome)
@@ -171,6 +179,7 @@ class TelaAtendimento:
         print("Data e hora: "+str(data)+ ", ", str(hora))
         print("Valor: R$", str(valor))
         print("Pago: ", str(pago))
+        print("Realizado: ", str(realizado))
         print("--------------------")
 
     def relatorio_mes(self):
