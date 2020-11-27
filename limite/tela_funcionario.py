@@ -11,15 +11,27 @@ class TelaFuncionario:
 
     def init_components(self):
         sg.ChangeLookAndFeel('Reddit')
+
+        layout = []
+
+        for funcionario in self.__controlador.funcionarios:
+            layout += [[sg.Checkbox('', key=funcionario.nome), sg.Text(funcionario.nome), sg.Text(funcionario.data_nascimento), sg.Text(funcionario.telefone), sg.Text(funcionario.data_contratacao)]]
+
+        layout += [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
+
+        '''
         layout = [
                     [sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
                     [sg.Text('Nome: ', size=(40, 1)), sg.InputText('', key='it_nome')],
                     [sg.Text('Data de Nascimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText('', key='it_data_nascimento')],
                     [sg.Text('Telefone: ', size=(40, 1)), sg.InputText('', key='it_telefone')],
                     [sg.Text('Data de contratação: ', size=(40, 1)), sg.InputText('', key='it_data_contratacao')],
+                    #[sg.Output('')]
                     [sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Listar'), sg.Button('Alterar'), sg.Cancel('Voltar')]
                 ]
+        '''
         self.__window = sg.Window('Cadastro de funcionário', default_button_element_size=(40, 1)).Layout(layout)
+
 
     def open(self):
         button, values = self.__window.Read()

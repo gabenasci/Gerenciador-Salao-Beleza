@@ -3,12 +3,13 @@ from entidade.funcionario import Funcionario
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 import PySimpleGUI as sg
+import datetime
 
 class ControladorFuncionario:
     __instance = None
 
     def __init__(self, controlador_sistema):
-        self.__funcionarios = []
+        self.__funcionarios = [Funcionario('Gabriel', datetime.date(1998, 7, 30), 48988096814, datetime.date(2020, 7, 30))]
         self.__controlador = controlador_sistema
         self.__tela_funcionario = TelaFuncionario(self)
         self.__continua_exibindo_tela = True
