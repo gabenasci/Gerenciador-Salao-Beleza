@@ -40,48 +40,7 @@ class ControladorFuncionario:
             if button == 'Alterar':
                 for funcionario in self.__funcionarios:
                     if values[funcionario.nome] == True:
-                        self.__tela_inclui_funcionario.init_components()
-                        button, values = self.__tela_inclui_funcionario.open()
-                        if button == sg.WIN_CLOSED or button == 'Voltar':
-                            self.__tela_inclui_funcionario.close()
-
-                        if button == 'Salvar':
-                            nome = values["it_nome"]
-                            try:
-                                data = values["it_data_nascimento"]
-                                dia, mes, ano = map(int, data.split('/'))
-                                data_nascimento = datetime.date(ano, mes, dia)
-                            except ValueError:
-                                sg.Popup("Data inválida!")
-                                self.__controlador.abre_tela()
-                            telefone = values["it_telefone"]
-                            try:
-                                telefone = int(telefone)
-                            except ValueError:
-                                sg.Popup("Valor inteiro inválido!")
-                                self.__controlador.abre_tela()
-                            try:
-                                data2 = values["it_data_contratacao"]
-                                dia, mes, ano = map(int, data2.split('/'))
-                                data_contratacao = datetime.date(ano, mes, dia)
-                            except ValueError:
-                                sg.Popup("Data inválida!")
-                                self.__controlador.abre_tela()
-                            # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
-                            #                     "data_contratacao": data_contratacao}
-                            try:
-                                for funcionario in self.__funcionarios:
-                                    if funcionario.nome == values["it_nome"]:
-                                        raise ObjetoJaCadastrado
-                                self.__funcionarios.remove(funcionario)
-                                funcionario_alterado = Funcionario(nome, data_nascimento, telefone, data_contratacao)
-                                self.__funcionarios.append(funcionario_alterado)
-                                self.__tela_inclui_funcionario.close()
-                                sg.Popup('Funcionario Alterado')
-                            except ObjetoJaCadastrado:
-                                self.__tela_funcionario.excecao(
-                                    mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
-
+                        self.altera_funcionario()
             else:
                 funcao_escolhida = switcher[button]
                 funcao_escolhida()
@@ -147,49 +106,48 @@ class ControladorFuncionario:
         '''
 
     def altera_funcionario(self):
-        for funcionario in self.__funcionarios:
-            if values[funcionario.nome] == True:
-                    self.__tela_inclui_funcionario.init_components()
-                    button, values = self.__tela_inclui_funcionario.open()
-                    if button == sg.WIN_CLOSED or button == 'Voltar':
-                        self.__tela_inclui_funcionario.close()
+        self.__tela_inclui_funcionario.init_components()
+        button, values = self.__tela_inclui_funcionario.open()
+        if button == sg.WIN_CLOSED or button == 'Voltar':
+            self.__tela_inclui_funcionario.close()
 
-                        if button == 'Salvar':
+        if button == 'Salvar':
+            nome = values["it_nome"]
+            try:
+                data = values["it_data_nascimento"]
+                dia, mes, ano = map(int, data.split('/'))
+                data_nascimento = datetime.date(ano, mes, dia)
+            except ValueError:
+                sg.Popup("Data inválida!")
+                self.__controlador.abre_tela()
+            telefone = values["it_telefone"]
+            try:
+                telefone = int(telefone)
+            except ValueError:
+                sg.Popup("Valor inteiro inválido!")
+                self.__controlador.abre_tela()
+            try:
+                data2 = values["it_data_contratacao"]
+                dia, mes, ano = map(int, data2.split('/'))
+                data_contratacao = datetime.date(ano, mes, dia)
+            except ValueError:
+                sg.Popup("Data inválida!")
+                self.__controlador.abre_tela()
+            # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
+            #                     "data_contratacao": data_contratacao}
+            try:
+                for funcionario in self.__funcionarios:
+                    if funcionario.nome == values["it_nome"]:
+                        raise ObjetoJaCadastrado
+                self.__funcionarios.remove(funcionario)
+                funcionario_alterado = Funcionario(nome, data_nascimento, telefone, data_contratacao)
+                self.__funcionarios.append(funcionario_alterado)
+                self.__tela_inclui_funcionario.close()
+                sg.Popup('Funcionario Alterado')
+            except ObjetoJaCadastrado:
+                self.__tela_funcionario.excecao(
+                    mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
 
-                            nome = values["it_nome"]
-                            try:
-                                data = values["it_data_nascimento"]
-                                dia, mes, ano = map(int, data.split('/'))
-                                data_nascimento = datetime.date(ano, mes, dia)
-                            except ValueError:
-                                print("Data inválida!")
-                                self.__controlador.abre_tela()
-                            telefone = values["it_telefone"]
-                            try:
-                                telefone = int(telefone)
-                            except ValueError:
-                                print("Valor inteiro inválido!")
-                                self.__controlador.abre_tela()
-                            try:
-                                data2 = values["it_data_contratacao"]
-                                dia, mes, ano = map(int, data2.split('/'))
-                                data_contratacao = datetime.date(ano, mes, dia)
-                            except ValueError:
-                                print("Data inválida!")
-                                self.__controlador.abre_tela()
-                            # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
-                            #                     "data_contratacao": data_contratacao}
-                            try:
-                                for funcionario in self.__funcionarios:
-                                    if funcionario.nome == values["it_nome"]:
-                                        raise ObjetoJaCadastrado
-                                novo_funcionario = Funcionario(nome, data_nascimento, telefone, data_contratacao)
-                                self.__funcionarios.append(novo_funcionario)
-                                self.__tela_inclui_funcionario.close()
-                                sg.Popup('Funcionario Cadastrado')
-                            except ObjetoJaCadastrado:
-                                self.__tela_funcionario.excecao(
-                                    mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
         '''
         nome_funcionario, dado, valor_dado = self.__tela_funcionario.altera_dados_funcionario()
         for funcionario in self.__funcionarios:
