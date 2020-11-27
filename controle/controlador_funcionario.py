@@ -108,6 +108,11 @@ class ControladorFuncionario:
                 self.__funcionarios.append(funcionario_alterado)
 
     def exclui_funcionario(self):
+        button, values = self.__tela_funcionario.open()
+        for funcionario in self.__funcionarios:
+            if values[funcionario.nome] == True:
+                self.__funcionarios.remove(funcionario)
+        '''
         nome_funcionario = self.__tela_funcionario.encontra_funcionario()
         try:
             for obj in self.__funcionarios:
@@ -117,7 +122,7 @@ class ControladorFuncionario:
                     raise ObjetoNaoExisteExcecao
         except ObjetoNaoExisteExcecao:
             self.__tela_funcionario.excecao(mensagem="Não existe nenhum funcionário com esse nome. Por favor, confira a lista de clientes cadastrados")
-
+        '''
     def lista_funcionarios(self):
         for funcionario in self.__funcionarios:
             self.__tela_funcionario.mostra_dados_funcionario(funcionario.nome, funcionario.data_nascimento, funcionario.data_contratacao)
