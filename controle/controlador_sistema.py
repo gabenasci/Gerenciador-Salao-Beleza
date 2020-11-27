@@ -39,7 +39,8 @@ class ControladorSistema():
 
         while True:
             button, values = self.__tela_sistema.open()
-
+            if button == sg.WIN_CLOSED:
+                exit(0)
             funcao_escolhida = lista_opcoes[button]
 
             funcao_escolhida()
