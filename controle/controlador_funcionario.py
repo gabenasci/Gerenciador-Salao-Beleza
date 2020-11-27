@@ -1,4 +1,5 @@
 from limite.tela_funcionario import TelaFuncionario
+from limite.tela_inclui_funcionario import TelaIncluiFuncionario
 from entidade.funcionario import Funcionario
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
@@ -12,6 +13,7 @@ class ControladorFuncionario:
         self.__funcionarios = [Funcionario('Gabriel', datetime.date(1998, 7, 30), 48988096814, datetime.date(2020, 7, 30))]
         self.__controlador = controlador_sistema
         self.__tela_funcionario = TelaFuncionario(self)
+        self.__tela_inclui_funcionario = TelaIncluiFuncionario(self)
         self.__continua_exibindo_tela = True
 
     def __new__(cls, controlador_sistema):
@@ -21,18 +23,66 @@ class ControladorFuncionario:
 
     def abre_tela(self):
 
-        switcher = {'Voltar': self.retorna, 'Incluir': self.inclui_funcionario, 'Excluir': self.exclui_funcionario, 'Listar': self.lista_funcionarios,
-                    'Alterar': self.altera_funcionario}
+        switcher = {'Incluir': self.inclui_funcionario, 'Excluir': self.exclui_funcionario, 'Listar': self.lista_funcionarios,
+                    'Alterar': self.altera_funcionario, 'Voltar': self.retorna}
 
         #self.__continua_exibindo_tela = True
         #while self.__continua_exibindo_tela:
-        self.__tela_funcionario.init_components()
-        button, values = self.__tela_funcionario.open()
-        funcao_escolhida = switcher[button]
-        funcao_escolhida()
+        while True:
+            self.__tela_funcionario.init_components()
+            button, values = self.__tela_funcionario.open()
+            if button == 'Voltar' or button == sg.WIN_CLOSED:
+                break
+            funcao_escolhida = switcher[button]
+            funcao_escolhida()
+            self.__tela_funcionario.close()
+        self.__tela_funcionario.close()
 
 
     def inclui_funcionario(self):
+
+        self.__tela_inclui_funcionario.init_components()
+        button, values = self.__tela_inclui_funcionario.open()
+        if button == sg.WIN_CLOSED or button == 'Voltar':
+            self.__tela_inclui_funcionario.close()
+
+        if button == 'Salvar':
+
+            nome = values["it_nome"]
+            try:
+                data = values["it_data_nascimento"]
+                dia, mes, ano = map(int, data.split('/'))
+                data_nascimento = datetime.date(ano, mes, dia)
+            except ValueError:
+                print("Data inválida!")
+                self.__controlador.abre_tela()
+            telefone = values["it_telefone"]
+            try:
+                telefone = int(telefone)
+            except ValueError:
+                print("Valor inteiro inválido!")
+                self.__controlador.abre_tela()
+            try:
+                data2 = values["it_data_contratacao"]
+                dia, mes, ano = map(int, data2.split('/'))
+                data_contratacao = datetime.date(ano, mes, dia)
+            except ValueError:
+                print("Data inválida!")
+                self.__controlador.abre_tela()
+            #dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
+            #                     "data_contratacao": data_contratacao}
+            try:
+                for funcionario in self.__funcionarios:
+                    if funcionario.nome == values["it_nome"]:
+                        raise ObjetoJaCadastrado
+                novo_funcionario = Funcionario(nome, data_nascimento, telefone, data_contratacao)
+                self.__funcionarios.append(novo_funcionario)
+                self.__tela_inclui_funcionario.close()
+                sg.Popup('Funcionario Cadastrado')
+            except ObjetoJaCadastrado:
+                self.__tela_funcionario.excecao(mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
+
+        '''
         dados_funcionario = self.__tela_funcionario.solicita_dados_funcionario()
         try:
             for obj in self.__funcionarios:
@@ -43,6 +93,7 @@ class ControladorFuncionario:
             self.__funcionarios.append(novo_funcionario)
         except ObjetoJaCadastrado:
             self.__tela_funcionario.excecao(mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
+        '''
 
     def altera_funcionario(self):
         nome_funcionario, dado, valor_dado = self.__tela_funcionario.altera_dados_funcionario()
