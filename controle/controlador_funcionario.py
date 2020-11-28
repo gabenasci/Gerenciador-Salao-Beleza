@@ -53,14 +53,15 @@ class ControladorFuncionario:
                                                 funcionario.telefone, data_c)
             else:
                 funcao_escolhida = switcher[button]
-                funcao_escolhida()
+                if funcao_escolhida == self.inclui_funcionario:
+                    funcao_escolhida(None, None, None, None)
 
             self.__tela_funcionario.close()
         self.__tela_funcionario.close()
 
 
-    def inclui_funcionario(self):
-        self.__tela_inclui_funcionario.init_components()
+    def inclui_funcionario(self, nome, data_n, telefone, data_c):
+        self.__tela_inclui_funcionario.init_components(nome, data_n, telefone, data_c)
         button, values = self.__tela_inclui_funcionario.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
             self.__tela_inclui_funcionario.close()
@@ -74,9 +75,9 @@ class ControladorFuncionario:
                     dia, mes, ano = map(int, data.split('/'))
                     data_nascimento = datetime.date(ano, mes, dia)
                 except ValueError:
-                    sg.Popup("Data inválida!")
+                    sg.Popup("Data de nascimento inválida!")
                     self.__tela_inclui_funcionario.close()
-                    self.inclui_funcionario()
+                    self.inclui_funcionario(values['it_nome'], None, values['it_telefone'], values['it_data_contratacao'])
                     break
                 telefone = values["it_telefone"]
                 try:
@@ -84,16 +85,16 @@ class ControladorFuncionario:
                 except ValueError:
                     sg.Popup("Telefone inválido!")
                     self.__tela_inclui_funcionario.close()
-                    self.inclui_funcionario()
+                    self.inclui_funcionario(values['it_nome'], values["it_data_nascimento"], None, values['it_data_contratacao'])
                     break
                 try:
                     data2 = values["it_data_contratacao"]
                     dia, mes, ano = map(int, data2.split('/'))
                     data_contratacao = datetime.date(ano, mes, dia)
                 except ValueError:
-                    sg.Popup("Data inválida!")
+                    sg.Popup("Data de contratação inválida!")
                     self.__tela_inclui_funcionario.close()
-                    self.inclui_funcionario()
+                    self.inclui_funcionario(values['it_nome'], values['it_data_nascimento'], values["it_telefone"], None)
                     break
                 #dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
                 #                     "data_contratacao": data_contratacao}
