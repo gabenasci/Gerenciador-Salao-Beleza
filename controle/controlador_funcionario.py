@@ -23,7 +23,7 @@ class ControladorFuncionario:
 
     def abre_tela(self):
 
-        switcher = {'Incluir': self.inclui_funcionario,  'Listar': self.lista_funcionarios,
+        switcher = {'Incluir': self.inclui_funcionario, 'Listar': self.lista_funcionarios,
                      'Voltar': self.retorna}
 
         #self.__continua_exibindo_tela = True
@@ -33,11 +33,11 @@ class ControladorFuncionario:
             button, values = self.__tela_funcionario.open()
             if button == 'Voltar' or button == sg.WIN_CLOSED:
                 break
-            if button == 'Excluir':
+            elif button == 'Excluir':
                 for funcionario in self.__funcionarios:
                     if values[funcionario.nome] == True:
                         self.__funcionarios.remove(funcionario)
-            if button == 'Alterar':
+            elif button == 'Alterar':
                 for funcionario in self.__funcionarios:
                     if values[funcionario.nome] == True:
                         self.altera_funcionario()
