@@ -12,7 +12,7 @@ class TelaIncluiFuncionario:
         sg.ChangeLookAndFeel('Reddit')
 
         layout = [
-                    [sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
+                    #[sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
                     [sg.Text('Nome: ', size=(40, 1)), sg.InputText(nome, key='it_nome')],
                     [sg.Text('Data de Nascimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText(data_n, key='it_data_nascimento')],
                     [sg.Text('Telefone: ', size=(40, 1)), sg.InputText(telefone, key='it_telefone')],

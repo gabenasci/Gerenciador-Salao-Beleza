@@ -15,7 +15,8 @@ class TelaFuncionario:
         layout = []
 
         for funcionario in self.__controlador.funcionarios:
-            layout += [[sg.Checkbox('', key=funcionario.nome), sg.Text(funcionario.nome), sg.Text(funcionario.data_nascimento), sg.Text(funcionario.telefone), sg.Text(funcionario.data_contratacao)]]
+            layout += [[sg.Checkbox('', key=funcionario.nome), sg.Text(funcionario.nome, size=(8,1)), sg.Text(funcionario.data_nascimento,size=(10,1)),
+                        sg.Text(funcionario.telefone,size=(15,1)), sg.Text(funcionario.data_contratacao,size=(0,1))]]
 
         layout += [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
 
