@@ -41,7 +41,16 @@ class ControladorFuncionario:
             elif button == 'Alterar':
                 for funcionario in self.__funcionarios:
                     if values[funcionario.nome] == True:
-                        self.altera_funcionario()
+                        ano_n = str(funcionario.data_nascimento.year)
+                        mes_n = str(funcionario.data_nascimento.month)
+                        dia_n = str(funcionario.data_nascimento.day)
+                        data_n = dia_n+'/'+mes_n+'/'+ano_n
+                        ano_c = str(funcionario.data_contratacao.year)
+                        mes_c = str(funcionario.data_contratacao.month)
+                        dia_c = str(funcionario.data_contratacao.day)
+                        data_c = dia_c+'/'+mes_c+'/'+ano_c
+                        self.altera_funcionario(funcionario.nome, data_n,
+                                                funcionario.telefone, data_c)
             else:
                 funcao_escolhida = switcher[button]
                 funcao_escolhida()
@@ -51,7 +60,6 @@ class ControladorFuncionario:
 
 
     def inclui_funcionario(self):
-
         self.__tela_inclui_funcionario.init_components()
         button, values = self.__tela_inclui_funcionario.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
@@ -118,8 +126,8 @@ class ControladorFuncionario:
             self.__tela_funcionario.excecao(mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
         '''
 
-    def altera_funcionario(self):
-        self.__tela_inclui_funcionario.init_components()
+    def altera_funcionario(self, nome, data_n, telefone, data_c):
+        self.__tela_inclui_funcionario.init_components(nome, data_n, telefone, data_c)
         button, values = self.__tela_inclui_funcionario.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
             self.__tela_inclui_funcionario.close()
