@@ -11,13 +11,17 @@ class TelaSistema():
     def init_components(self):
         sg.ChangeLookAndFeel('Reddit')
         layout = [
-                    [sg.Text('Sistema Salão de Beleza', size=(30, 1), font=("Helvetica", 25))],
+                    [sg.Text('', justification='c', size=(15, 1))],
+                    [sg.Text('Salão de Beleza',justification='c', size=(20, 1), font=("Helvetica", 25))],
                     [sg.Text('Escolha a opção: ')],
                     #[sg.InputText('Texto de resposta', key='it_nome')],
-                    [sg.Button('Funcionario'), sg.Button('Cliente'),  sg.Button('Servico')],
-                    [sg.Button('Atendimento'), sg.Cancel('Cancelar')]
+                    [sg.Button('Funcionario', size=(15, 2),font=('Helvetica', 20))],
+                    [sg.Button('Cliente', size=(15, 2),font=('Helvetica', 20))],
+                    [sg.Button('Servico', size=(15, 2),font=('Helvetica', 20))],
+                    [sg.Button('Atendimento', size=(15, 2),font=('Helvetica', 20))],
+                    [sg.Cancel('Sair', font=('Helvetica', 20),size=(15,2),button_color=('white','red'))]
                 ]
-        self.__window = sg.Window('Titulo da tela', default_button_element_size=(40, 1)).Layout(layout)
+        self.__window = sg.Window('Sistema Salão de Beleza', default_button_element_size=(40, 1), size=(400, 550), element_justification='c').Layout(layout)
 
     def open(self):
         button, values = self.__window.Read()
