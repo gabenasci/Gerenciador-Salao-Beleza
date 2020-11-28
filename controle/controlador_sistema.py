@@ -35,7 +35,7 @@ class ControladorSistema():
     def abre_tela(self):
         lista_opcoes = {'Funcionario': self.opcao_funcionarios, 'Cliente': self.opcao_clientes,
                         'Servico': self.opcao_servicos, 'Atendimento': self.opcao_atendimentos,
-                        'Cancelar': self.opcao_encerra}
+                        'Sair': self.opcao_encerra}
 
         while True:
             button, values = self.__tela_sistema.open()
