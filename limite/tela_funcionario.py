@@ -12,13 +12,16 @@ class TelaFuncionario:
     def init_components(self):
         sg.ChangeLookAndFeel('Reddit')
 
-        layout = []
+        lista = []
+
+        headings = ['NOME', 'NASCIMENTO', 'TELEFONE', 'CONTRATAÇÃO']
+        header = [[sg.Text('  ',size=(3,0))] + [sg.Text(h, size=(15, 0)) for h in headings]]
 
         for funcionario in self.__controlador.funcionarios:
-            layout += [[sg.Checkbox('', key=funcionario.nome), sg.Text(funcionario.nome, size=(8,1)), sg.Text(funcionario.data_nascimento,size=(10,1)),
-                        sg.Text(funcionario.telefone,size=(15,1)), sg.Text(funcionario.data_contratacao,size=(0,1))]]
+            lista += [[sg.Checkbox('', key=funcionario.nome), sg.Text(funcionario.nome, size=(15,1)), sg.Text(funcionario.data_nascimento,size=(15,1)),
+                        sg.Text(funcionario.telefone,size=(15,1)), sg.Text(funcionario.data_contratacao,size=(15,1))]]
 
-        layout += [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
+        layout = header + lista + [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
 
         self.__window = sg.Window('Cadastro de funcionário', default_button_element_size=(40, 1)).Layout(layout)
 
