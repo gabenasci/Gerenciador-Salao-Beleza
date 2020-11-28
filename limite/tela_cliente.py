@@ -1,9 +1,28 @@
 import datetime
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+import PySimpleGUI as sg
 
 class TelaCliente:
     def __init__(self, controlador_cliente):
         self.__controle = controlador_cliente
+        self.__window = None
+        self.init_components()
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('Reddit')
+        layout = []
+        for cliente in self.__controle.clientes:
+            layout += [[sg.Checkbox('', key=cliente.nome), sg.Text(cliente.nome), sg.Text(cliente.data_nascimento), sg.Text(cliente.telefone),
+                        sg.Text(cliente.instagram), sg.Text(cliente.tipo_cliente), sg.Text(cliente.obs)]]
+        layout +=[[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
+        self.__window = sg.Window('CLIENTES', default_button_element_size=(40, 1)).Layout(layout)
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+
+    def close(self):
+        self.__window.Close()
 
     def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
         while True:
