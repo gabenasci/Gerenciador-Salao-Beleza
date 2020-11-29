@@ -3,6 +3,7 @@ from limite.tela_cliente import TelaCliente
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 from excecoes.cliente_menor_de_idade import ClienteMenorDeIdade
+from excecoes.campo_nao_preenchido import CampoNaoPreenchido
 import datetime
 from limite.tela_inclui_cliente import TelaIncluiCliente
 import PySimpleGUI as sg
@@ -76,10 +77,23 @@ class ControladorCliente:
                 except ValueError:
                     sg.Popup("Digite um telefone válido! Apenas números inteiros.")
                     self.__tela_inclui_cliente.close()
-                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], None, values['instagram'], values['tipo_cliente'], values['obs'])
+                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], None, values['instagram'], values['tipo_cliente'], values['it_obs'])
                     break
                 instagram = values['it_instagram']
-                tipo_cliente = values['it_tipo_cliente']
+                try:
+                    if values['it_tipo_cliente1']:
+                        tipo_cliente = 'Ouro'
+                    elif values['it_tipo_cliente2']:
+                        tipo_cliente = 'Prata'
+                    elif values['it_tipo_cliente3']:
+                        tipo_cliente = 'Bronze'
+                    elif tipo_cliente == None:
+                        raise CampoNaoPreenchido
+                except CampoNaoPreenchido:
+                    sg.Popup('Escolha um tipo para o cliente!')
+                    self.__tela_inclui_cliente.close()
+                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], values['it_telefone'], values['it_instagram'], None, values['it_obs'])
+                    break
                 obs = values['it_obs']
                 try:
                     for cliente in self.__clientes:
@@ -153,7 +167,19 @@ class ControladorCliente:
                     self.altera_cliente()
                     break
                 instagram = values['it_instagram']
-                tipo_cliente = values['it_tipo_cliente']
+                try:
+                    if values['it_tipo_cliente1']:
+                        tipo_cliente = 'Ouro'
+                    elif values['it_tipo_cliente2']:
+                        tipo_cliente = 'Prata'
+                    elif values['it_tipo_cliente3']:
+                        tipo_cliente = 'Bronze'
+                    elif tipo_cliente == None:
+                        raise CampoNaoPreenchido
+                except CampoNaoPreenchido:
+                    sg.Popup('Escolha um tipo para o cliente!')
+                    self.__tela_inclui_cliente.close()
+                    self.altera_cliente()
                 obs = values['it_obs']
                 for cliente in self.__clientes:
                     if cliente.nome == values['it_nome']:
