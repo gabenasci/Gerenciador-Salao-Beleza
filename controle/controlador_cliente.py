@@ -11,7 +11,7 @@ class ControladorCliente:
     __instance = None
 
     def __init__(self, controlador_sistema):
-        self.__clientes = []
+        self.__clientes = [Cliente('Livia', datetime.date(2000, 7, 31), 48991219662, 'liviasmarques', 'ouro', '')]
         self.__controlador = controlador_sistema
         self.__tela_cliente = TelaCliente(self)
         self.__tela_inclui_cliente = TelaIncluiCliente(self)
@@ -43,12 +43,12 @@ class ControladorCliente:
                         mes_n = str(cliente.data_nascimento.month)
                         dia_n = str(cliente.data_nascimento.day)
                         data_n = dia_n + '/' + mes_n + '/' + ano_n
-                        self.altera_funcionario(cliente.nome, data_n,
+                        self.altera_cliente(cliente.nome, data_n,
                                                 cliente.telefone, cliente.instagram, cliente.tipo_cliente, cliente.obs)
             else:
                 funcao_escolhida = switcher[button]
                 if funcao_escolhida == self.inclui_cliente:
-                    funcao_escolhida(None, None, None, None, None, None)
+                    self.inclui_cliente(None, None, None, None, None, None)
             self.__tela_cliente.close()
         self.__tela_cliente.close()
 
@@ -128,7 +128,7 @@ class ControladorCliente:
     def altera_cliente(self, nome, data_n, telefone, instagram, tipo_cliente, obs):
         self.__tela_inclui_cliente.init_components(nome, data_n, telefone, instagram, tipo_cliente, obs)
         button, values = self.__tela_inclui_cliente.open()
-        if button == 'Voltar' or button == sg.WIN_CLOSED:
+        if button == sg.WIN_CLOSED or button == 'Voltar':
             self.__tela_inclui_cliente.close()
 
         cadastro = True
@@ -156,13 +156,14 @@ class ControladorCliente:
                 tipo_cliente = values['it_tipo_cliente']
                 obs = values['it_obs']
                 for cliente in self.__clientes:
-                    self.__clientes.remove(cliente)
-                    cliente_alterado = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
-                    self.__clientes.append(cliente_alterado)
-                    self.__tela_inclui_cliente.close()
-                    sg.Popup('Cliente foi alterado!')
-                    cadastro = False
-                    break
+                    if cliente.nome == values['it_nome']:
+                        self.__clientes.remove(cliente)
+                        cliente_alterado = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
+                        self.__clientes.append(cliente_alterado)
+                        self.__tela_inclui_cliente.close()
+                        sg.Popup('Cliente foi alterado!')
+                        cadastro = False
+                        break
 
     def retorna(self):
         self.__tela_cliente.close()

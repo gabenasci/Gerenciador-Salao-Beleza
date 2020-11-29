@@ -13,12 +13,12 @@ class TelaIncluiCliente:
 
         layout = [
                     [sg.Text('Cadastro de Cliente', size=(30, 1), font=("Helvetica", 25))],
-                    [sg.Text('Nome: ', size=(40, 1)), sg.InputText('', key='it_nome')],
-                    [sg.Text('Data de Nascimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText('', key='it_data_nascimento')],
-                    [sg.Text('Telefone: ', size=(40, 1)), sg.InputText('', key='it_telefone')],
-                    [sg.Text('Instagram: ', size=(40,1)), sg.InputText('', key='it_instagram')],
-                    [sg.Text('Tipo cliente: ', size=(40, 1)), sg.InputText('', key='it_tipo_cliente')],
-                    [sg.Text('Observações: ', size=(40, 1)), sg.InputText('', key='it_obs')],
+                    [sg.Text('Nome: ', size=(40, 1)), sg.InputText(nome, key='it_nome')],
+                    [sg.Text('Data de Nascimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText(data_n, key='it_data_nascimento')],
+                    [sg.Text('Telefone: ', size=(40, 1)), sg.InputText(telefone, key='it_telefone')],
+                    [sg.Text('Instagram: ', size=(40,1)), sg.InputText(instagram, key='it_instagram')],
+                    [sg.Text('Tipo cliente: ', size=(40, 1)), sg.InputText(tipo_cliente, key='it_tipo_cliente')],
+                    [sg.Text('Observações: ', size=(40, 1)), sg.InputText(obs, key='it_obs')],
                     #[sg.Output('')]
                     [sg.Submit('Salvar'), sg.Cancel('Voltar')]
                 ]
