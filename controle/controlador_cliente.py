@@ -11,7 +11,7 @@ class ControladorCliente:
     __instance = None
 
     def __init__(self, controlador_sistema):
-        self.__clientes = [Cliente('Livia', datetime.date(2000, 7, 31), 48991219662, 'liviasmarques', 'ouro', '')]
+        self.__clientes = []
         self.__controlador = controlador_sistema
         self.__tela_cliente = TelaCliente(self)
         self.__tela_inclui_cliente = TelaIncluiCliente(self)
@@ -85,12 +85,12 @@ class ControladorCliente:
                     for cliente in self.__clientes:
                         if cliente.nome == values['it_nome']:
                             raise ObjetoJaCadastrado
-                        novo_cliente = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
-                        self.__clientes.append(novo_cliente)
-                        self.__tela_inclui_cliente.close()
-                        sg.Popup('Cliente cadastrado!')
-                        cadastro = False
-                        break
+                    novo_cliente = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
+                    self.__clientes.append(novo_cliente)
+                    self.__tela_inclui_cliente.close()
+                    sg.Popup('Cliente cadastrado!')
+                    cadastro = False
+                    break
                 except ObjetoJaCadastrado:
                     sg.Popup('Já existe um cliente com esse nome! Adicione o sobrenome ou um identificador')
                     self.__tela_inclui_cliente.close()
