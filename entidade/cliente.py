@@ -34,3 +34,11 @@ class Cliente(Pessoa):
     @obs.setter
     def obs(self, obs):
         self.__obs = obs
+
+    @property
+    def codigo(self):
+        return self.__codigo
+
+    @codigo.setter
+    def codigo(self, codigo):
+        self.__codigo = codigo

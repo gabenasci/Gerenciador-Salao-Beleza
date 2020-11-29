@@ -1,5 +1,6 @@
 from entidade.cliente import Cliente
 from limite.tela_cliente import TelaCliente
+from DAO import ClienteDAO
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 from excecoes.cliente_menor_de_idade import ClienteMenorDeIdade
