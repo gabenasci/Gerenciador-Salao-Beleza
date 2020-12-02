@@ -13,7 +13,7 @@ class ControladorCliente:
     __instance = None
 
     def __init__(self, controlador_sistema):
-        self.__clientes = []
+        self.__cliente_dao = ClienteDAO()
         self.__controlador = controlador_sistema
         self.__tela_cliente = TelaCliente(self)
         self.__tela_inclui_cliente = TelaIncluiCliente(self)
@@ -35,11 +35,11 @@ class ControladorCliente:
             if button == 'Voltar' or button == sg.WIN_CLOSED:
                 break
             elif button == 'Excluir':
-                for cliente in self.__clientes:
+                for cliente in self.__cliente_dao.get_all():
                     if values[cliente.nome] == True:
-                        self.__clientes.remove(cliente)
+                        self.__cliente_dao.remove(cliente.nome)
             elif button == 'Alterar':
-                for cliente in self.__clientes:
+                for cliente in self.__cliente_dao.get_all():
                     if values[cliente.nome] == True:
                         ano_n = str(cliente.data_nascimento.year)
                         mes_n = str(cliente.data_nascimento.month)
@@ -68,7 +68,7 @@ class ControladorCliente:
                     dia, mes, ano = map(int, data.split('/'))
                     data_nascimento = datetime.date(ano, mes, dia)
                 except ValueError:
-                    sg.Popup("Data inválida!")
+                    sg.Popup("Data de nascimento inválida!")
                     self.__tela_inclui_cliente.close()
                     self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['instagram'], values['tipo_cliente'], values['obs'])
                     break
@@ -97,11 +97,11 @@ class ControladorCliente:
                     break
                 obs = values['it_obs']
                 try:
-                    for cliente in self.__clientes:
-                        if cliente.nome == values['it_nome']:
+                    for cliente in self.__cliente_dao.get_all():
+                        if cliente.nome == values["it_nome"]:
                             raise ObjetoJaCadastrado
                     novo_cliente = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
-                    self.__clientes.append(novo_cliente)
+                    self.__cliente_dao.add(novo_cliente)
                     self.__tela_inclui_cliente.close()
                     sg.Popup('Cliente cadastrado!')
                     cadastro = False
@@ -131,13 +131,13 @@ class ControladorCliente:
 
     def exclui_cliente(self):
         button, values = self.__tela_cliente.open()
-        for cliente in self.__clientes:
+        for cliente in self.__cliente_dao.get_all():
             if values[cliente.nome] == True:
-                self.__cliente.remove(cliente)
+                self.__cliente_dao.remove(cliente.nome)
 
 
     def lista_clientes(self):
-        for cliente in self.__clientes:
+        for cliente in self.__cliente_dao.get_all():
             self.__tela_cliente.mostra_dados_cliente(cliente.nome, cliente.telefone, cliente.data_nascimento, cliente.instagram, cliente.tipo_cliente, cliente.obs)
 
     def altera_cliente(self, nome, data_n, telefone, instagram, tipo_cliente, obs):
@@ -149,6 +149,7 @@ class ControladorCliente:
         cadastro = True
         if button == 'Salvar':
             while cadastro:
+                self.__cliente_dao.remove(nome)
                 nome = values['it_nome']
                 try:
                     data = values["it_data_nascimento"]
@@ -182,26 +183,23 @@ class ControladorCliente:
                     self.__tela_inclui_cliente.close()
                     self.altera_cliente()
                 obs = values['it_obs']
-                for cliente in self.__clientes:
-                    if cliente.nome == values['it_nome']:
-                        self.__clientes.remove(cliente)
-                        cliente_alterado = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
-                        self.__clientes.append(cliente_alterado)
-                        self.__tela_inclui_cliente.close()
-                        sg.Popup('Cliente foi alterado!')
-                        cadastro = False
-                        break
+                cliente_alterado = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
+                self.__cliente_dao.add(cliente_alterado)
+                self.__tela_inclui_cliente.close()
+                sg.Popup('Cliente foi alterado!')
+                cadastro = False
+                break
 
     def retorna(self):
         self.__tela_cliente.close()
 
     @property
     def clientes(self):
-        return self.__clientes
+        return self.__cliente_dao.get_all()
 
     def clientes_nome(self):
         clientes_str = []
-        for cliente in self.__clientes:
+        for cliente in self.__cliente_dao.get_all():
             clientes_str.append(cliente.nome)
         return clientes_str
 
