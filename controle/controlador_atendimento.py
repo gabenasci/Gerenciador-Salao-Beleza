@@ -59,6 +59,7 @@ class ControladorAtendimento:
         self.__tela_atendimento.close()
 
     def inclui_atendimento(self, id, cliente, funcionario, data, hora, valor, pago, realizado):
+
         self.__tela_inclui_atendimento.init_components(id, cliente, funcionario, data, hora, valor, pago, realizado)
         button, values = self.__tela_inclui_atendimento.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
@@ -129,20 +130,20 @@ class ControladorAtendimento:
                             raise FuncionarioIndisponivelExcecao
                     #servico = self.__controlador.controlador_servico.busca_servico_nome(dados_atendimento["servico"])
 
-                    for servico in self.__controlador.controlador_servico.servicos:
-                        if servico.nome == values["it_servico"]:
-                            servico = values['it_servico']
+                    for s in self.__controlador.controlador_servico.servicos:
+                        if s.nome == values["it_servico"]:
+                            servico = s
                     #dados_atendimento["servico"] = servico
-                    for cliente in self.__controlador.controlador_cliente.clientes:
-                        if cliente.nome == values["it_cliente"]:
-                            cliente = values['it_cliente']
-                    for funcionario in self.__controlador.controlador_funcionario.funcionarios:
-                        if funcionario.nome == values["it_funcionario"]:
-                            funcionario = values['it_funcionario']
+                    for c in self.__controlador.controlador_cliente.clientes:
+                        if c.nome == values["it_cliente"]:
+                            cliente = c
+                    for f in self.__controlador.controlador_funcionario.funcionarios:
+                        if f.nome == values["it_funcionario"]:
+                            funcionario = f
 
 
                     novo_atendimento = Atendimento(servico, cliente, funcionario,
-                                                   data, hora, valor, pago, realizado)
+                                                   data_atendimento, hora_atendimento, valor, pago, realizado)
                     self.__atendimento_dao.add(novo_atendimento)
                     novo_atendimento.id = len(self.__atendimento_dao.get_all())
                     self.__tela_inclui_atendimento.close()
@@ -269,16 +270,16 @@ class ControladorAtendimento:
                             raise FuncionarioIndisponivelExcecao
                     # servico = self.__controlador.controlador_servico.busca_servico_nome(dados_atendimento["servico"])
 
-                    for servico in self.__controlador.controlador_servico.servicos:
-                        if servico.nome == values["it_servico"]:
-                            servico = values['it_servico']
+                    for s in self.__controlador.controlador_servico.servicos:
+                        if s.nome == values["it_servico"]:
+                            servico = s
                     # dados_atendimento["servico"] = servico
-                    for cliente in self.__controlador.controlador_cliente.clientes:
-                        if cliente.nome == values["it_cliente"]:
-                            cliente = values['it_cliente']
-                    for funcionario in self.__controlador.controlador_funcionario.funcionarios:
-                        if funcionario.nome == values["it_funcionario"]:
-                            funcionario = values['it_funcionario']
+                    for c in self.__controlador.controlador_cliente.clientes:
+                        if c.nome == values["it_cliente"]:
+                            cliente = c
+                    for f in self.__controlador.controlador_funcionario.funcionarios:
+                        if f.nome == values["it_funcionario"]:
+                            funcionario = f
 
                     for atendimento in self.__atendimento_dao.get_all():
                         self.__atendimento_dao.remove(atendimento.id)

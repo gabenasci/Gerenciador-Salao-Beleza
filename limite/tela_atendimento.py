@@ -13,11 +13,11 @@ class TelaAtendimento:
 
         lista = []
 
-        headings = ['ID', 'CLIENTE', 'FUNCIONARIO', 'DATA', 'HORA', 'VALOR', 'PAGO', 'REALIZADO']
+        headings = ['ID', 'SERVICO', 'CLIENTE', 'FUNCIONARIO', 'DATA', 'HORA', 'VALOR', 'PAGO', 'REALIZADO']
         header = [[sg.Text('  ',size=(3,0))] + [sg.Text(h, size=(15, 0)) for h in headings]]
 
         for atendimento in self.__controlador.atendimentos:
-            lista += [[sg.Checkbox('', key=atendimento.id), sg.Text(atendimento.cliente, size=(15,1)), sg.Text(atendimento.funcionario,size=(15,1)),
+            lista += [[sg.Checkbox('', key=atendimento.id), sg.Text(atendimento.id, size=(15,1)), sg.Text(atendimento.servico.nome, size=(15,1)), sg.Text(atendimento.cliente.nome, size=(15,1)), sg.Text(atendimento.funcionario.nome,size=(15,1)),
                        sg.Text(atendimento.data,size=(15,1)), sg.Text(atendimento.hora,size=(15,1)), sg.Text(atendimento.valor,size=(15,1)),
                        sg.Text(atendimento.pago,size=(15,1)), sg.Text(atendimento.realizado,size=(15,1))]]
 
