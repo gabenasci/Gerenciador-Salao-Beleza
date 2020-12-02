@@ -75,3 +75,6 @@ class ControladorSistema():
     @property
     def controlador_atendimento(self):
         return self.__controlador_atendimento
+
+    def get_servicos(self):
+        return self.__controlador_servico.servicos_nome()

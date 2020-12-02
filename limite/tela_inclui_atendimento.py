@@ -5,15 +5,18 @@ class TelaIncluiAtendimento:
     def __init__(self, controlador_atendimento):
         self.__controlador = controlador_atendimento
         self.__window = None
-        self.init_components(None, None, None, None, None, None, None, None)
+        self.init_components(None, None, None, None, None, None, None, None, None)
 
 
-    def init_components(self, id, cliente, funcionario, data, hora, valor, pago, realizado):
+    def init_components(self, id, servico, cliente, funcionario, data, hora, valor, pago, realizado):
         sg.ChangeLookAndFeel('Reddit')
+        list = self.__controlador.get_servicos()
+        
+        
 
         layout = [
                     #[sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
-                    [sg.Text('Serviço a ser marcado: ', size=(40, 1)), sg.InputText(id, key='it_servico')],
+                    [sg.Text('Serviço: ', size=(40, 1)), sg.InputCombo(list, servico, size=(40, 1), key='it_servico')],
                     [sg.Text('Nome do Cliente: ', size=(40, 1)), sg.InputText(cliente, key='it_cliente')],
                     [sg.Text('Nome do Funcionario: ', size=(40, 1)), sg.InputText(funcionario, key='it_funcionario')],
                     [sg.Text('Data do atendimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText(data, key='it_data')],
@@ -32,3 +35,7 @@ class TelaIncluiAtendimento:
 
     def close(self):
         self.__window.Close()
+
+    def get_servicos(self):
+        list = ['a', 'b', 'd']
+        return list
