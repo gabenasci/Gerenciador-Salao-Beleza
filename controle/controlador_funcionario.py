@@ -5,12 +5,16 @@ from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 import PySimpleGUI as sg
 import datetime
+from DAO.FuncionarioDAO import FuncionarioDAO
 
 class ControladorFuncionario:
     __instance = None
 
     def __init__(self, controlador_sistema):
+        self.__funcionario_dao = FuncionarioDAO()
+
         self.__funcionarios = [Funcionario('Gabriel', datetime.date(1998, 7, 30), 48988096814, datetime.date(2020, 7, 30))]
+
         self.__controlador = controlador_sistema
         self.__tela_funcionario = TelaFuncionario(self)
         self.__tela_inclui_funcionario = TelaIncluiFuncionario(self)
@@ -34,12 +38,12 @@ class ControladorFuncionario:
             if button == 'Voltar' or button == sg.WIN_CLOSED:
                 break
             elif button == 'Excluir':
-                for funcionario in self.__funcionarios:
+                for funcionario in self.__funcionario_dao.get_all():
                     # verifica se checkbox está clicado
                     if values[funcionario.nome] == True:
-                        self.__funcionarios.remove(funcionario)
+                        self.__funcionario_dao.remove(funcionario.nome)
             elif button == 'Alterar':
-                for funcionario in self.__funcionarios:
+                for funcionario in self.__funcionario_dao.get_all():
                     if values[funcionario.nome] == True:
                         ano_n = str(funcionario.data_nascimento.year)
                         mes_n = str(funcionario.data_nascimento.month)
@@ -99,15 +103,15 @@ class ControladorFuncionario:
                 #dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
                 #                     "data_contratacao": data_contratacao}
                 try:
-                    for funcionario in self.__funcionarios:
+                    for funcionario in self.__funcionario_dao.get_all():
                         if funcionario.nome == values["it_nome"]:
                             raise ObjetoJaCadastrado
-                        novo_funcionario = Funcionario(nome, data_nascimento, telefone, data_contratacao)
-                        self.__funcionarios.append(novo_funcionario)
-                        self.__tela_inclui_funcionario.close()
-                        sg.Popup('Funcionario Cadastrado')
-                        cadastro = False
-                        break
+                    novo_funcionario = Funcionario(nome, data_nascimento, telefone, data_contratacao)
+                    self.__funcionario_dao.add(novo_funcionario)
+                    self.__tela_inclui_funcionario.close()
+                    sg.Popup('Funcionario Cadastrado')
+                    cadastro = False
+                    break
                 except ObjetoJaCadastrado:
                     sg.Popup('Já existe um funcionário com esse nome!')
                     self.__tela_inclui_funcionario.close()
@@ -165,14 +169,14 @@ class ControladorFuncionario:
                     break
                 # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
                 #                     "data_contratacao": data_contratacao}
-                for funcionario in self.__funcionarios:
-                    self.__funcionarios.remove(funcionario)
-                    funcionario_alterado = Funcionario(nome, data_nascimento, telefone, data_contratacao)
-                    self.__funcionarios.append(funcionario_alterado)
-                    self.__tela_inclui_funcionario.close()
-                    sg.Popup('Funcionario Alterado')
-                    cadastro = False
-                    break
+                for funcionario in self.__funcionario_dao.get_all():
+                    self.__funcionario_dao.remove(funcionario.nome)
+                funcionario_alterado = Funcionario(nome, data_nascimento, telefone, data_contratacao)
+                self.__funcionario_dao.add(funcionario_alterado)
+                self.__tela_inclui_funcionario.close()
+                sg.Popup('Funcionario Alterado')
+                cadastro = False
+                break
 
         '''
         nome_funcionario, dado, valor_dado = self.__tela_funcionario.altera_dados_funcionario()
@@ -188,9 +192,9 @@ class ControladorFuncionario:
         '''
     def exclui_funcionario(self):
         button, values = self.__tela_funcionario.open()
-        for funcionario in self.__funcionarios:
+        for funcionario in self.__funcionario_dao.get_all():
             if values[funcionario.nome] == True:
-                self.__funcionarios.remove(funcionario)
+                self.__funcionario_dao.remove(funcionario.nome)
         '''
         nome_funcionario = self.__tela_funcionario.encontra_funcionario()
         try:
@@ -203,7 +207,7 @@ class ControladorFuncionario:
             self.__tela_funcionario.excecao(mensagem="Não existe nenhum funcionário com esse nome. Por favor, confira a lista de clientes cadastrados")
         '''
     def lista_funcionarios(self):
-        for funcionario in self.__funcionarios:
+        for funcionario in self.__funcionario_dao.get_all():
             self.__tela_funcionario.mostra_dados_funcionario(funcionario.nome, funcionario.data_nascimento, funcionario.data_contratacao)
 
     def retorna(self):
@@ -212,10 +216,10 @@ class ControladorFuncionario:
 
     @property
     def funcionarios(self):
-        return self.__funcionarios
+        return self.__funcionario_dao.get_all()
 
     def funcionarios_nome(self):
         funcionarios_str = []
-        for f in self.__funcionarios:
+        for f in self.__funcionario_dao.get_all():
             funcionarios_str.append(f.nome)
         return funcionarios_str
