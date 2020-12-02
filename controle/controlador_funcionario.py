@@ -146,9 +146,9 @@ class ControladorFuncionario:
                     dia, mes, ano = map(int, data.split('/'))
                     data_nascimento = datetime.date(ano, mes, dia)
                 except ValueError:
-                    sg.Popup("Data inválida!")
+                    sg.Popup("Data de nascimento inválida!")
                     self.__tela_inclui_funcionario.close()
-                    self.altera_funcionario()
+                    self.altera_funcionario(values['it_nome'], None, values['it_telefone'], values['it_data_contratacao'])
                     break
                 telefone = values["it_telefone"]
                 try:
@@ -156,16 +156,16 @@ class ControladorFuncionario:
                 except ValueError:
                     sg.Popup("Valor inteiro inválido!")
                     self.__tela_inclui_funcionario.close()
-                    self.altera_funcionario()
+                    self.altera_funcionario(values['it_nome'], values["it_data_nascimento"], None, values['it_data_contratacao'])
                     break
                 try:
                     data2 = values["it_data_contratacao"]
                     dia, mes, ano = map(int, data2.split('/'))
                     data_contratacao = datetime.date(ano, mes, dia)
                 except ValueError:
-                    sg.Popup("Data inválida!")
+                    sg.Popup("Data de contratação inválida!")
                     self.__tela_inclui_funcionario.close()
-                    self.altera_funcionario()
+                    self.altera_funcionario(values['it_nome'], values['it_data_nascimento'], values["it_telefone"], None)
                     break
                 # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
                 #                     "data_contratacao": data_contratacao}

@@ -48,19 +48,19 @@ class ControladorAtendimento:
                         hora = str(atendimento.hora.hour)
                         min = str(atendimento.hora.minute)
                         horario = hora + ':' + min
-                        self.altera_atendimento(atendimento.id, atendimento.cliente,
+                        self.altera_atendimento(atendimento.id, atendimento.servico, atendimento.cliente,
                                                 atendimento.funcionario, data, horario, atendimento.valor, atendimento.pago, atendimento.realizado)
             else:
                 funcao_escolhida = switcher[button]
                 if funcao_escolhida == self.inclui_atendimento:
-                    funcao_escolhida(None, None, None, None, None, None, None, None)
+                    funcao_escolhida(None, None, None, None, None, None, None, None, None)
 
             self.__tela_atendimento.close()
         self.__tela_atendimento.close()
 
-    def inclui_atendimento(self, id, cliente, funcionario, data, hora, valor, pago, realizado):
+    def inclui_atendimento(self, id, servico, cliente, funcionario, data, hora, valor, pago, realizado):
 
-        self.__tela_inclui_atendimento.init_components(id, cliente, funcionario, data, hora, valor, pago, realizado)
+        self.__tela_inclui_atendimento.init_components(id, servico, cliente, funcionario, data, hora, valor, pago, realizado)
         button, values = self.__tela_inclui_atendimento.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
             self.__tela_inclui_atendimento.close()
@@ -75,7 +75,7 @@ class ControladorAtendimento:
                 except ObjetoNaoExisteExcecao:
                     sg.Popup('Serviço não existe')
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, None, values['it_cliente'], values['it_funcionario'], values['it_data'], values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                     break
                 try:
                     cliente = values['it_cliente']
@@ -84,7 +84,7 @@ class ControladorAtendimento:
                 except ObjetoNaoExisteExcecao:
                     sg.Popup('Cliente não existe')
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], None, values['it_funcionario'], values['it_data'], values['it_hora'], values['it_valor'],  values['pago'], values['realizado'])
                     break
                 try:
                     funcionario = values['it_funcionario']
@@ -93,7 +93,7 @@ class ControladorAtendimento:
                 except ObjetoNaoExisteExcecao:
                     sg.Popup('Funcionario não existe')
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], None, values['it_data'], values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                     break
                 try:
                     data = values['it_data']
@@ -104,7 +104,7 @@ class ControladorAtendimento:
                 except ValueError:
                     sg.Popup("Data inválida!")
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], values['it_funcionario'], None, values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                 try:
                     hora = values['it_hora']
                     h, m = map(int, hora.split(':'))
@@ -112,14 +112,14 @@ class ControladorAtendimento:
                 except ValueError:
                     sg.Popup("Horário inválido!")
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], values['it_funcionario'], values['it_data'], None, values['it_valor'], values['pago'], values['realizado'])
                 valor = values['it_valor']
                 try:
                     valor = float(valor)
                 except ValueError:
-                    sg.Popup("Valor float inválido")
+                    sg.Popup("Valor inválido")
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], values['it_funcionario'], values['it_data'], values['it_hora'], None, values['pago'], values['realizado'])
                 pago = values['pago']
                 realizado = values['realizado']
 
@@ -144,8 +144,8 @@ class ControladorAtendimento:
 
                     novo_atendimento = Atendimento(servico, cliente, funcionario,
                                                    data_atendimento, hora_atendimento, valor, pago, realizado)
-                    self.__atendimento_dao.add(novo_atendimento)
                     novo_atendimento.id = len(self.__atendimento_dao.get_all())
+                    self.__atendimento_dao.add(novo_atendimento)
                     self.__tela_inclui_atendimento.close()
                     sg.Popup('Atendimento cadastrado')
                     cadastro = False
@@ -181,8 +181,8 @@ class ControladorAtendimento:
                                                                  atendimento.data, atendimento.hora,
                                                                  atendimento.valor, atendimento.pago, atendimento.realizado)
 
-    def altera_atendimento(self, id, cliente, funcionario, data, hora, valor, pago, realizado):
-        self.__tela_inclui_atendimento.init_components(id, cliente, funcionario, data, hora, valor, pago, realizado)
+    def altera_atendimento(self, id, servico, cliente, funcionario, data, hora, valor, pago, realizado):
+        self.__tela_inclui_atendimento.init_components(id, servico.nome, cliente.nome, funcionario.nome, data, hora, valor, pago, realizado)
         button, values = self.__tela_inclui_atendimento.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
             self.__tela_inclui_atendimento.close()
@@ -192,30 +192,30 @@ class ControladorAtendimento:
             while cadastro:
                 try:
                     servico = values['it_servico']
-                    if servico not in self.__controlador.controlador_servico.servicos():
+                    if servico not in self.servicos():
                         raise ObjetoNaoExisteExcecao
                 except ObjetoNaoExisteExcecao:
                     sg.Popup('Serviço não existe')
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, None, values['it_cliente'], values['it_funcionario'], values['it_data'], values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                     break
                 try:
                     cliente = values['it_cliente']
-                    if cliente not in self.__controlador.controlador_cliente.clientes():
+                    if cliente not in self.clientes():
                         raise ObjetoNaoExisteExcecao
                 except ObjetoNaoExisteExcecao:
                     sg.Popup('Cliente não existe')
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], None, values['it_funcionario'], values['it_data'], values['it_hora'], values['it_valor'],  values['pago'], values['realizado'])
                     break
                 try:
                     funcionario = values['it_funcionario']
-                    if funcionario not in self.__controlador.controlador_funcionario.funcionarios():
+                    if funcionario not in self.funcionarios():
                         raise ObjetoNaoExisteExcecao
                 except ObjetoNaoExisteExcecao:
                     sg.Popup('Funcionario não existe')
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], None, values['it_data'], values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                     break
                 try:
                     data = values['it_data']
@@ -226,7 +226,7 @@ class ControladorAtendimento:
                 except ValueError:
                     sg.Popup("Data inválida!")
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], values['it_funcionario'], None, values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                 try:
                     hora = values['it_hora']
                     h, m = map(int, hora.split(':'))
@@ -234,34 +234,16 @@ class ControladorAtendimento:
                 except ValueError:
                     sg.Popup("Horário inválido!")
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], values['it_funcionario'], values['it_data'], None, values['it_valor'], values['pago'], values['realizado'])
                 valor = values['it_valor']
                 try:
                     valor = float(valor)
                 except ValueError:
                     sg.Popup("Valor float inválido")
                     self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
+                    self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], values['it_funcionario'], values['it_data'], values['it_hora'], None, values['pago'], values['realizado'])
                 pago = values['pago']
-                try:
-                    if pago == "True":
-                        pago = True
-                    elif pago == "False":
-                        pago = False
-                except ValueError:
-                    sg.Popup("Valor booleano inválido")
-                    self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
                 realizado = values['realizado']
-                try:
-                    if realizado == 'True':
-                        realizado = True
-                    elif realizado == 'False':
-                        realizado = False
-                except ValueError:
-                    sg.Popup("Valor booleano inválido")
-                    self.__tela_inclui_atendimento.close()
-                    self.inclui_atendimento()
                 try:
                     for atendimento in self.__atendimento_dao.get_all():
                         if atendimento.funcionario.nome == values["it_funcionario"] and atendimento.data == values[
@@ -281,12 +263,11 @@ class ControladorAtendimento:
                         if f.nome == values["it_funcionario"]:
                             funcionario = f
 
-                    for atendimento in self.__atendimento_dao.get_all():
-                        self.__atendimento_dao.remove(atendimento.id)
+                    self.__atendimento_dao.remove(id)
                     novo_atendimento = Atendimento(servico, cliente, funcionario,
-                                                   data, hora, valor, pago, realizado)
-                    self.__atendimento_dao.add(novo_atendimento)
+                                                   data_atendimento, hora_atendimento, valor, pago, realizado)
                     novo_atendimento.id = len(self.__atendimento_dao.get_all())
+                    self.__atendimento_dao.add(novo_atendimento)
                     self.__tela_inclui_atendimento.close()
                     sg.Popup('Atendimento alterado')
                     cadastro = False
