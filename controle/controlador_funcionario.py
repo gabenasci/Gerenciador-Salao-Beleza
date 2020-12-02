@@ -170,7 +170,7 @@ class ControladorFuncionario:
                 # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
                 #                     "data_contratacao": data_contratacao}
                 for funcionario in self.__funcionario_dao.get_all():
-                    self.__funcionario_dao.remove(funcionario.nome)
+                    self.__funcionario_dao.remove(funcionario)
                 funcionario_alterado = Funcionario(nome, data_nascimento, telefone, data_contratacao)
                 self.__funcionario_dao.add(funcionario_alterado)
                 self.__tela_inclui_funcionario.close()

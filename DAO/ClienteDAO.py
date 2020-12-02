@@ -6,7 +6,7 @@ class ClienteDAO(DAO):
         super().__init__('clientes.pkl')
 
     def add(self, cliente: Cliente):
-        if (isinstance(cliente.nome, str)) and (cliente is not None) and isinstance(cliente, Cliente):
+        if (cliente is not None) and (isinstance(cliente.nome, str)) and isinstance(cliente, Cliente):
             super().add(cliente.nome, cliente)
 
     def get(self, key: str):
@@ -14,5 +14,5 @@ class ClienteDAO(DAO):
             return super().get(key)
 
     def remove(self, key: str):
-        if isinstance(key, int):
+        if isinstance(key, str):
             return super().remove(key)
