@@ -1,9 +1,37 @@
 import datetime
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+import PySimpleGUI as sg
 
 class TelaAtendimento:
     def __init__(self, controlador_atendimento):
-        self.__controle = controlador_atendimento
+        self.__controlador = controlador_atendimento
+        self.__window = None
+        self.init_components()
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('Reddit')
+
+        lista = []
+
+        headings = ['ID', 'CLIENTE', 'FUNCIONARIO', 'DATA', 'HORA', 'VALOR', 'PAGO', 'REALIZADO']
+        header = [[sg.Text('  ',size=(3,0))] + [sg.Text(h, size=(15, 0)) for h in headings]]
+
+        for atendimento in self.__controlador.atendimentos:
+            lista += [[sg.Checkbox('', key=atendimento.id), sg.Text(atendimento.cliente, size=(15,1)), sg.Text(atendimento.funcionario,size=(15,1)),
+                       sg.Text(atendimento.data,size=(15,1)), sg.Text(atendimento.hora,size=(15,1)), sg.Text(atendimento.valor,size=(15,1)),
+                       sg.Text(atendimento.pago,size=(15,1)), sg.Text(atendimento.realizado,size=(15,1))]]
+
+        layout = header + lista + [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
+
+        self.__window = sg.Window('Cadastro de atendimento', default_button_element_size=(40, 1)).Layout(layout)
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+
+    def close(self):
+        self.__window.Close()
+
 
     def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
         while True:
