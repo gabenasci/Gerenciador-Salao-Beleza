@@ -1,8 +1,33 @@
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
+import PySimpleGUI as sg
 
 class TelaServico:
     def __init__(self, controlador_servico):
-        self.__controle = controlador_servico
+        self.__controlador = controlador_servico
+        self.__window = None
+        self.init_components()
+
+    def init_components(self):
+        sg.ChangeLookAndFeel('Reddit')
+
+        lista = []
+
+        headings = ['NOME', 'REQUISITO']
+        header = [[sg.Text('  ',size=(3,0))] + [sg.Text(h, size=(15, 0)) for h in headings]]
+
+        for servico in self.__controlador.servicos:
+            lista += [[sg.Checkbox('', key=servico.nome), sg.Text(servico.nome, size=(15,1)), sg.Text(servico.requisito,size=(15,1))]]
+
+        layout = header + lista + [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Cancel('Voltar')]]
+
+        self.__window = sg.Window('Cadastro de serviço', default_button_element_size=(40, 1)).Layout(layout)
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+
+    def close(self):
+        self.__window.Close()
 
     def le_num_inteiro(self, mensagem: str = "", inteiros_validos: [] = None):
         while True:

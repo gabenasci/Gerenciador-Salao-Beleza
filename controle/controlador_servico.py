@@ -2,16 +2,20 @@ from limite.tela_servico import TelaServico
 from entidade.servico import Servico
 from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
+from DAO.servico_DAO import ServicoDAO
+from limite.tela_inclui_servico import TelaIncluiServico
+import PySimpleGUI as sg
 
 
 class ControladorServico:
     __instance = None
 
     def __init__(self, controlador_sistema):
-        self.__servicos = []
-
+        self.__servico_dao = ServicoDAO()
+        #self.__servicos = [Servico('Teste', 'Nenhum')]
         self.__controlador = controlador_sistema
         self.__tela_servico = TelaServico(self)
+        self.__tela_inclui_servico = TelaIncluiServico(self)
         self.__continua_exibindo_tela = True
 
     def __new__(cls, controlador_sistema):
@@ -20,72 +24,77 @@ class ControladorServico:
         return ControladorServico.__instance
 
     def abre_tela(self):
-        switcher = {0: self.retorna, 1: self.inclui_servico, 2: self.exclui_servico, 3: self.lista_servicos,
-                    4: self.altera_servico}
+        switcher = {'Incluir': self.inclui_servico, 'Listar': self.lista_servicos, 'Voltar': self.retorna}
 
-        self.__continua_exibindo_tela = True
-        while self.__continua_exibindo_tela:
-            opcao = self.__tela_servico.tela_opcoes()
-            funcao_escolhida = switcher[opcao]
-            funcao_escolhida()
+        #self.__continua_exibindo_tela = True
+        #while self.__continua_exibindo_tela:
+        while True:
+            self.__tela_servico.init_components()
+            button, values = self.__tela_servico.open()
+            if button == 'Voltar' or button == sg.WIN_CLOSED:
+                break
+            elif button == 'Excluir':
+                for servico in self.__servico_dao.get_all():
+                    if values[servico.nome] == True:
+                        self.__servico_dao.remove(servico.nome)
+            else:
+                funcao_escolhida = switcher[button]
+                if funcao_escolhida == self.inclui_servico:
+                    self.inclui_servico(None, None)
+            self.__tela_servico.close()
+        self.__tela_servico.close()
 
-    def inclui_servico(self):
-        dados_servico = self.__tela_servico.solicita_dados_servico()
-        try:
-            if dados_servico["Requisito"] == Servico.kit_unha.nome:
-                dados_servico["Requisito"] = Servico.kit_unha
-            if dados_servico["Requisito"] == Servico.kit_cabelo.nome:
-                dados_servico["Requisito"] = Servico.kit_cabelo
-            if dados_servico["Requisito"] == Servico.kit_pele.nome:
-                dados_servico["Requisito"] = Servico.kit_pele
-
-            novo_servico = Servico(dados_servico["Nome"], dados_servico["Requisito"])
-            if (novo_servico is not None) and (isinstance(novo_servico, Servico)):
-                if novo_servico not in self.__servicos:
-                    self.__servicos.append(novo_servico)
-        except ObjetoJaCadastrado:
-            self.__tela_servico.excecao(mensagem="Já existe um serviço cadastrado com esse nome! Por favor, verifique a lista de serviços cadastrados")
+    def inclui_servico(self, nome, requisito):
+        self.__tela_inclui_servico.init_components(nome, requisito)
+        button, values = self.__tela_inclui_servico.open()
+        if button == sg.WIN_CLOSED or button == 'Voltar':
+            self.__tela_inclui_servico.close()
+        cadastro = True
+        if button == 'Salvar':
+            while cadastro:
+                nome = values['it_nome']
+                requisito = values['it_requisito']
+                try:
+                    for servico in self.__servico_dao.get_all():
+                        if servico.nome == values["it_nome"]:
+                            raise ObjetoJaCadastrado
+                    novo_servico = Servico(nome, requisito)
+                    self.__servico_dao.add(novo_servico)
+                    self.__tela_inclui_servico.close()
+                    sg.Popup('Servico cadastrado!')
+                    cadastro = False
+                    break
+                except ObjetoJaCadastrado:
+                    sg.Popup('Já existe um serviço com esse nome!')
+                    self.__tela_inclui_servico.close()
+                    self.inclui_servico()
+                    break
 
     def exclui_servico(self):
-        nome_servico = self.__tela_servico.encontra_servico()
-        try:
-            for obj in self.__servicos:
-                if obj.nome == nome_servico:
-                    self.__servicos.remove(obj)
-                else:
-                    raise ObjetoNaoExisteExcecao
-        except ObjetoNaoExisteExcecao:
-            self.__tela_servico.excecao(mensagem="Não existe nenhum serviço com esse nome. Por favor, confira a lista de serviços cadastrados")
+        button, values = self.__tela_servico.open()
+        for servico in self.__servico_dao.get_all():
+            if values[servico.nome] == True:
+                self.__servico_dao.remove(servico.nome)
 
     def lista_servicos(self):
-        for servico in self.__servicos:
+        for servico in self.__servico_dao.get_all():
             self.__tela_servico.mostra_dados_servico(servico.nome, servico.requisito)
-
-    def altera_servico(self):
-        nome_servico, dado, valor_dado = self.__tela_servico.altera_dados_servico()
-        for servico in self.__servicos:
-            if servico.nome == nome_servico:
-                dados_servico = {"nome": servico.nome, "requisito": servico.requisito}
-                dados_servico[dado] = valor_dado
-                self.__servicos.remove(servico)
-                servico_alterado = Servico(dados_servico["nome"], dados_servico["requisito"])
-                self.__servicos.append(servico_alterado)
 
     def retorna(self):
         self.__continua_exibindo_tela = False
 
     @property
     def servicos(self):
-        return self.__servicos
+        return self.__servico_dao.get_all()
 
     def servicos_nome(self):
         servicos_str = []
-        for s in self.__servicos:
+        for s in self.__servico_dao.get_all():
             servicos_str.append(s.nome)
         return servicos_str
 
     def busca_servico_nome(self, nome_servico):
-        for servico in self.__servicos:
+        for servico in self.__servico_dao.get_all():
             if servico.nome == nome_servico:
                 return nome_servico
 
