@@ -140,7 +140,7 @@ class ControladorFuncionario:
         cadastro = True
         if button == 'Salvar':
             while cadastro:
-                nome = values["it_nome"]
+                nome_novo = values["it_nome"]
                 try:
                     data = values["it_data_nascimento"]
                     dia, mes, ano = map(int, data.split('/'))
@@ -169,9 +169,8 @@ class ControladorFuncionario:
                     break
                 # dados_funcionario = {"nome": nome, "data_nascimento": data_nascimento, "telefone": telefone,
                 #                     "data_contratacao": data_contratacao}
-                for funcionario in self.__funcionario_dao.get_all():
-                    self.__funcionario_dao.remove(funcionario.nome)
-                funcionario_alterado = Funcionario(nome, data_nascimento, telefone, data_contratacao)
+                self.__funcionario_dao.remove(nome)
+                funcionario_alterado = Funcionario(nome_novo, data_nascimento, telefone, data_contratacao)
                 self.__funcionario_dao.add(funcionario_alterado)
                 self.__tela_inclui_funcionario.close()
                 sg.Popup('Funcionario Alterado')
