@@ -20,12 +20,12 @@ class TelaAtendimento:
             lista += [[sg.Checkbox('', key=atendimento.id), sg.Text(atendimento.id, size=(15,1)), sg.Text(atendimento.servico.nome, size=(15,1)), sg.Text(atendimento.cliente.nome, size=(15,1)), sg.Text(atendimento.funcionario.nome,size=(15,1)),
                        sg.Text(atendimento.data,size=(15,1)), sg.Text(atendimento.hora,size=(15,1)), sg.Text(atendimento.valor,size=(15,1)),
                        sg.Text(atendimento.pago,size=(15,1)), sg.Text(atendimento.realizado,size=(15,1))]]
-        botoes = [[sg.Text('Escolha o mês:',size=(10,0)), sg.Spin(values=(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), initial_value='1', key='mes'), sg.Text('  ',size=(3,0))], [sg.Button('Gerar')],
+        botoes = [[sg.Text('Escolha o mês:',size=(15,0)), sg.Spin(values=(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), initial_value='1', key='mes'), sg.Text('  ',size=(3,0)), sg.Button('Gerar relatório mensal')],
                     [sg.InputText('', key=('cliente')), sg.Button('Filtrar por cliente'), sg.InputText('',key=('data')), sg.Button('Filtrar por data')]]
 
         layout = header + lista + botoes + [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
 
-        self.__window = sg.Window('Cadastro de atendimento', default_button_element_size=(40, 1)).Layout(layout)
+        self.__window = sg.Window('ATENDIMENTO', default_button_element_size=(40, 1)).Layout(layout)
 
     def open(self):
         button, values = self.__window.Read()

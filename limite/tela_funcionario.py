@@ -23,7 +23,7 @@ class TelaFuncionario:
 
         layout = header + lista + [[sg.Button('Incluir'), sg.Button('Excluir'), sg.Button('Alterar'), sg.Cancel('Voltar')]]
 
-        self.__window = sg.Window('Cadastro de funcionário', default_button_element_size=(40, 1)).Layout(layout)
+        self.__window = sg.Window('FUNCIONÁRIO', default_button_element_size=(40, 1)).Layout(layout)
 
     def open(self):
         button, values = self.__window.Read()

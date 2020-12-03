@@ -15,15 +15,13 @@ class TelaIncluiAtendimento:
         
 
         layout = [
-                    #[sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
                     [sg.Text('Serviço: ', size=(40, 1)), sg.InputCombo(list, servico, size=(40, 1), key='it_servico')],
                     [sg.Text('Nome do Cliente: ', size=(40, 1)), sg.InputText(cliente, key='it_cliente')],
                     [sg.Text('Nome do Funcionario: ', size=(40, 1)), sg.InputText(funcionario, key='it_funcionario')],
                     [sg.Text('Data do atendimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText(data, key='it_data')],
                     [sg.Text('Hora do atendimento (HH:MM): ', size=(40, 1)), sg.InputText(hora, key='it_hora')],
                     [sg.Text('Valor: R$ ', size=(40, 1)), sg.InputText(valor, key='it_valor')],
-                    [sg.Checkbox('Pago agora', size=(40, 1), key='pago'), sg.Checkbox('Realizado', size=(40,1), key='realizado')],
-                    #[sg.Output('')]
+                    [sg.Checkbox('Pago', size=(40, 1), key='pago'), sg.Checkbox('Realizado', size=(40,1), key='realizado')],
                     [sg.Submit('Salvar'), sg.Cancel('Voltar')]
                 ]
 

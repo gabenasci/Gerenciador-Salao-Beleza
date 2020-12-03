@@ -59,7 +59,7 @@ class ControladorAtendimento:
             elif button == 'Filtrar por data':
                 data = values['data']
                 self.lista_atendimentos_dia(data)
-            elif button == 'Gerar':
+            elif button == 'Gerar relatório mensal':
                 mes = values['mes']
                 self.gera_relatorio_mes(mes)
             else:
@@ -140,12 +140,9 @@ class ControladorAtendimento:
                         if atendimento.funcionario.nome == values["it_funcionario"] and atendimento.data == values["it_data"] and \
                                 atendimento.hora == values["it_hora"]:
                             raise FuncionarioIndisponivelExcecao
-                    #servico = self.__controlador.controlador_servico.busca_servico_nome(dados_atendimento["servico"])
-
                     for s in self.__controlador.controlador_servico.servicos:
                         if s.nome == values["it_servico"]:
                             servico = s
-                    #dados_atendimento["servico"] = servico
                     for c in self.__controlador.controlador_cliente.clientes:
                         if c.nome == values["it_cliente"]:
                             cliente = c
@@ -156,7 +153,6 @@ class ControladorAtendimento:
                                                    data_atendimento, hora_atendimento, valor, pago, realizado)
                     novo_atendimento.id = len(self.__atendimento_dao.get_all())
                     self.__atendimento_dao.add(novo_atendimento)
-                    #novo_atendimento.id = len(self.__atendimento_dao.get_all())
                     self.__tela_inclui_atendimento.close()
                     sg.Popup('Atendimento cadastrado')
                     cadastro = False
@@ -270,12 +266,9 @@ class ControladorAtendimento:
                             "it_data"] and \
                                 atendimento.hora == values["it_hora"]:
                             raise FuncionarioIndisponivelExcecao
-                    # servico = self.__controlador.controlador_servico.busca_servico_nome(dados_atendimento["servico"])
-
                     for s in self.__controlador.controlador_servico.servicos:
                         if s.nome == values["it_servico"]:
                             servico = s
-                    # dados_atendimento["servico"] = servico
                     for c in self.__controlador.controlador_cliente.clientes:
                         if c.nome == values["it_cliente"]:
                             cliente = c
@@ -339,11 +332,6 @@ class ControladorAtendimento:
         return lista
 
     def gera_relatorio_mes(self, mes):
-        #mes = self.__tela_atendimento.relatorio_mes()
-        #self.__tela_relatorio.init_components()
-        #button, values = self.__tela_relatorio.open()
-        #if button == sg.WIN_CLOSED or button == 'Voltar':
-            #self.__tela_relatorio.close()
         atendimentos_mes = []
         for atendimento in self.__atendimento_dao.get_all():
             if atendimento.data.month == mes:

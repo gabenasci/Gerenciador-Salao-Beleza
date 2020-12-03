@@ -27,8 +27,6 @@ class ControladorCliente:
     def abre_tela(self):
         switcher = {'Incluir': self.inclui_cliente, 'Listar': self.lista_clientes, 'Voltar': self.retorna}
 
-        #self.__continua_exibindo_tela = True
-        #while self.__continua_exibindo_tela:
         while True:
             self.__tela_cliente.init_components()
             button, values = self.__tela_cliente.open()
