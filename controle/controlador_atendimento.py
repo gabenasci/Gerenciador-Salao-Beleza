@@ -7,7 +7,7 @@ from collections import Counter
 import PySimpleGUI as sg
 import datetime
 from DAO.AtendimentoDAO import AtendimentoDAO
-
+from limite.tela_filtra_atendimento import TelaFiltraAtendimento
 
 class ControladorAtendimento:
     __instance = None
@@ -17,6 +17,7 @@ class ControladorAtendimento:
         self.__controlador = controlador_sistema
         self.__tela_atendimento = TelaAtendimento(self)
         self.__tela_inclui_atendimento = TelaIncluiAtendimento(self)
+        self.__tela_filtra_atendimento = TelaFiltraAtendimento(self)
         self.__continua_exibindo_tela = True
         self.get_servicos()
 
@@ -50,6 +51,13 @@ class ControladorAtendimento:
                         horario = hora + ':' + min
                         self.altera_atendimento(atendimento.id, atendimento.servico, atendimento.cliente.nome,
                                                 atendimento.funcionario.nome, data, horario, atendimento.valor, atendimento.pago, atendimento.realizado)
+            elif button == 'Filtrar por cliente':
+                cliente = values['cliente']
+                self.lista_atendimentos_cliente(cliente)
+            elif button == 'Filtrar por data':
+                data = values['data']
+                self.lista_atendimentos_dia(data)
+
             else:
                 funcao_escolhida = switcher[button]
                 if funcao_escolhida == self.inclui_atendimento:
@@ -162,23 +170,32 @@ class ControladorAtendimento:
                 self.__atendimento_dao.remove(atendimento.id)
 
 
-    def lista_atendimentos_cliente(self):
-        cliente = self.__tela_atendimento.atendimento_cliente()
+    def lista_atendimentos_cliente(self, cliente):
+        atendimentos_filtrados = []
         for atendimento in self.__atendimento_dao.get_all():
             if atendimento.cliente.nome == cliente:
-                self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
-                                                                 atendimento.cliente, atendimento.funcionario,
-                                                                 atendimento.data, atendimento.hora, atendimento.valor,
-                                                                 atendimento.pago, atendimento.realizado)
+                atendimentos_filtrados.append(atendimento)
+        self.__tela_filtra_atendimento.init_components(atendimentos_filtrados)
+        button, values = self.__tela_filtra_atendimento.open()
+        if button == sg.WIN_CLOSED or button == 'Voltar':
+            self.__tela_filtra_atendimento.close()
 
-    def lista_atendimentos_dia(self):
-        dia = self.__tela_atendimento.atendimento_dia()
+
+    def lista_atendimentos_dia(self, data):
+        atendimentos_filtrados = []
+        try:
+            dia, mes, ano = map(int, data.split('/'))
+            data_atendimento = datetime.date(ano, mes, dia)
+        except ValueError:
+            sg.Popup("Data inválida!")
+            self.__tela_filtra_atendimento.close()
         for atendimento in self.__atendimento_dao.get_all():
-            if atendimento.data == dia:
-                self.__tela_atendimento.mostra_dados_atendimento(atendimento.id, atendimento.servico,
-                                                                 atendimento.cliente, atendimento.funcionario,
-                                                                 atendimento.data, atendimento.hora,
-                                                                 atendimento.valor, atendimento.pago, atendimento.realizado)
+            if atendimento.data == data_atendimento:
+                atendimentos_filtrados.append(atendimento)
+        self.__tela_filtra_atendimento.init_components(atendimentos_filtrados)
+        button, values = self.__tela_filtra_atendimento.open()
+        if button == sg.WIN_CLOSED or button == 'Voltar':
+            self.__tela_filtra_atendimento.close()
 
     def altera_atendimento(self, id, servico, cliente, funcionario, data, hora, valor, pago, realizado):
         self.__tela_inclui_atendimento.init_components(id, servico.nome, cliente, funcionario, data, hora, valor, pago, realizado)
