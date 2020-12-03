@@ -8,6 +8,7 @@ import PySimpleGUI as sg
 import datetime
 from DAO.AtendimentoDAO import AtendimentoDAO
 from limite.tela_filtra_atendimento import TelaFiltraAtendimento
+from limite.tela_relatorio import TelaRelatorio
 
 class ControladorAtendimento:
     __instance = None
@@ -18,6 +19,7 @@ class ControladorAtendimento:
         self.__tela_atendimento = TelaAtendimento(self)
         self.__tela_inclui_atendimento = TelaIncluiAtendimento(self)
         self.__tela_filtra_atendimento = TelaFiltraAtendimento(self)
+        self.__tela_relatorio = TelaRelatorio(self)
         self.__continua_exibindo_tela = True
         self.get_servicos()
 
@@ -57,7 +59,9 @@ class ControladorAtendimento:
             elif button == 'Filtrar por data':
                 data = values['data']
                 self.lista_atendimentos_dia(data)
-
+            elif button == 'Gerar':
+                mes = values['mes']
+                self.gera_relatorio_mes(mes)
             else:
                 funcao_escolhida = switcher[button]
                 if funcao_escolhida == self.inclui_atendimento:
@@ -334,16 +338,22 @@ class ControladorAtendimento:
             lista.append(service)
         return lista
 
-    def gera_relatorio_mes(self):
-        mes = self.__tela_atendimento.relatorio_mes()
+    def gera_relatorio_mes(self, mes):
+        #mes = self.__tela_atendimento.relatorio_mes()
+        #self.__tela_relatorio.init_components()
+        #button, values = self.__tela_relatorio.open()
+        #if button == sg.WIN_CLOSED or button == 'Voltar':
+            #self.__tela_relatorio.close()
         atendimentos_mes = []
-        for atendimento in self.__atendimentos:
+        for atendimento in self.__atendimento_dao.get_all():
             if atendimento.data.month == mes:
                 atendimentos_mes.append(atendimento.servico.nome)
         contador_servicos = dict(Counter(atendimentos_mes))
-        print("--- Número de atendimentos no mês "+str(mes)+": ---")
-        for chave, valor in contador_servicos.items():
-            print(chave+':', valor)
+        self.__tela_relatorio.init_components(contador_servicos)
+        button, values = self.__tela_relatorio.open()
+        if button == sg.WIN_CLOSED or button == 'Voltar':
+            self.__tela_relatorio.close()
+
 
     def retorna(self):
         self.__continua_exibindo_tela = False

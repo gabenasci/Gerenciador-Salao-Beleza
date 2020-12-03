@@ -16,7 +16,7 @@ class TelaIncluiCliente:
                     [sg.Text('Nome: ', size=(40, 1)), sg.InputText(nome, key='it_nome')],
                     [sg.Text('Data de Nascimento (DIA/MES/ANO): ', size=(40, 1)), sg.InputText(data_n, key='it_data_nascimento')],
                     [sg.Text('Telefone: ', size=(40, 1)), sg.InputText(telefone, key='it_telefone')],
-                    [sg.Text('Instagram: ', size=(40,1)), sg.InputText(instagram, key='it_instagram')],
+                    [sg.Text('Instagram: ', size=(40, 1)), sg.InputText(instagram, key='it_instagram')],
                     [sg.Text('Tipo cliente: ', size=(40, 1)), sg.Radio('Ouro', "RADIO1", size=(10, 1), key='it_tipo_cliente1'), sg.Radio('Prata', "RADIO1", key='it_tipo_cliente2'), sg.Radio('Bronze', "RADIO1", key='it_tipo_cliente3')],
                     [sg.Text('Observações: ', size=(40, 1)), sg.InputText(obs, key='it_obs')],
                     #[sg.Output('')]
