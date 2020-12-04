@@ -5,7 +5,8 @@ from excecoes.objeto_nao_existe import ObjetoNaoExisteExcecao
 from excecoes.objeto_ja_cadastrado import ObjetoJaCadastrado
 from excecoes.cliente_menor_de_idade import ClienteMenorDeIdade
 from excecoes.campo_nao_preenchido import CampoNaoPreenchido
-import datetime
+import datetime as dt
+from datetime import datetime
 from limite.tela_inclui_cliente import TelaIncluiCliente
 import PySimpleGUI as sg
 
@@ -64,11 +65,21 @@ class ControladorCliente:
                 try:
                     data = values['it_data_nascimento']
                     dia, mes, ano = map(int, data.split('/'))
-                    data_nascimento = datetime.date(ano, mes, dia)
+                    data_nascimento = dt.date(ano, mes, dia)
+                    try:
+                        idade = datetime.now().year - data_nascimento.year
+                        if idade < 18:
+                            raise ClienteMenorDeIdade
+                    except ClienteMenorDeIdade:
+                        sg.Popup("Cliente menor de idade!")
+                        self.__tela_inclui_cliente.close()
+                        self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['it_instagram'],
+                                            tipo_cliente, values['it_obs'])
+                        break
                 except ValueError:
                     sg.Popup("Data de nascimento inválida!")
                     self.__tela_inclui_cliente.close()
-                    self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['instagram'], values['tipo_cliente'], values['obs'])
+                    self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['it_instagram'], values['it_tipo_cliente'], values['it_obs'])
                     break
                 telefone = values['it_telefone']
                 try:
@@ -76,7 +87,7 @@ class ControladorCliente:
                 except ValueError:
                     sg.Popup("Digite um telefone válido! Apenas números inteiros.")
                     self.__tela_inclui_cliente.close()
-                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], None, values['instagram'], values['tipo_cliente'], values['it_obs'])
+                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], None, values['it_instagram'], values['it_tipo_cliente'], values['it_obs'])
                     break
                 instagram = values['it_instagram']
                 try:
@@ -107,7 +118,7 @@ class ControladorCliente:
                 except ObjetoJaCadastrado:
                     sg.Popup('Já existe um cliente com esse nome! Adicione o sobrenome ou um identificador')
                     self.__tela_inclui_cliente.close()
-                    self.inclui_cliente()
+                    self.inclui_cliente(None, values['it_data_nascimento'], values['it_telefone'], values['it_instagram'], tipo_cliente, values['it_obs'])
                     break
 
 
@@ -152,7 +163,17 @@ class ControladorCliente:
                 try:
                     data = values["it_data_nascimento"]
                     dia, mes, ano = map(int, data.split('/'))
-                    data_nascimento = datetime.date(ano, mes, dia)
+                    data_nascimento = dt.date(ano, mes, dia)
+                    try:
+                        idade = datetime.now().year - data_nascimento.year
+                        if idade < 18:
+                            raise ClienteMenorDeIdade
+                    except ClienteMenorDeIdade:
+                        sg.Popup("Cliente menor de idade!")
+                        self.__tela_inclui_cliente.close()
+                        self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['it_instagram'],
+                                            tipo_cliente, values['it_obs'])
+                        break
                 except ValueError:
                     sg.Popup("Data inválida!")
                     self.__tela_inclui_cliente.close()
