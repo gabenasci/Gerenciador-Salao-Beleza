@@ -1,8 +1,7 @@
-from entidade.ferramenta import Ferramenta
-
 
 class Servico:
-    def __init__(self, nome: str, requisito: Ferramenta):
+
+    def __init__(self, nome: str, requisito: str):
         self.__nome = nome
         self.__requisito = requisito
 
@@ -22,6 +21,4 @@ class Servico:
     def requisito(self, requisito):
         self.__nome = requisito
 
-    kit_unha = Ferramenta("Kit unha")
-    kit_cabelo = Ferramenta("Kit cabelo")
-    kit_pele = Ferramenta("Kit pele")
+

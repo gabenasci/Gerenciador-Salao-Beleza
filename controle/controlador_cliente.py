@@ -79,7 +79,7 @@ class ControladorCliente:
                 except ValueError:
                     sg.Popup("Data de nascimento inválida!")
                     self.__tela_inclui_cliente.close()
-                    self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['it_instagram'], values['it_tipo_cliente'], values['it_obs'])
+                    self.inclui_cliente(values['it_nome'], None, values['it_telefone'], values['it_instagram'], tipo_cliente, values['it_obs'])
                     break
                 telefone = values['it_telefone']
                 try:
@@ -87,15 +87,15 @@ class ControladorCliente:
                 except ValueError:
                     sg.Popup("Digite um telefone válido! Apenas números inteiros.")
                     self.__tela_inclui_cliente.close()
-                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], None, values['it_instagram'], values['it_tipo_cliente'], values['it_obs'])
+                    self.inclui_cliente(values['it_nome'], values['it_data_nascimento'], None, values['it_instagram'], tipo_cliente, values['it_obs'])
                     break
                 instagram = values['it_instagram']
                 try:
-                    if values['it_tipo_cliente1']:
+                    if values[Cliente.TIPO_CLIENTE[0]]:
                         tipo_cliente = 'Ouro'
-                    elif values['it_tipo_cliente2']:
+                    elif values[Cliente.TIPO_CLIENTE[1]]:
                         tipo_cliente = 'Prata'
-                    elif values['it_tipo_cliente3']:
+                    elif values[Cliente.TIPO_CLIENTE[2]]:
                         tipo_cliente = 'Bronze'
                     elif tipo_cliente == None:
                         raise CampoNaoPreenchido
@@ -177,7 +177,8 @@ class ControladorCliente:
                 except ValueError:
                     sg.Popup("Data inválida!")
                     self.__tela_inclui_cliente.close()
-                    self.altera_cliente()
+                    self.altera_cliente(values['it_nome'], None, values['it_telefone'], values['it_instagram'],
+                                            tipo_cliente, values['it_obs'])
                     break
                 telefone = values['it_telefone']
                 try:
@@ -185,22 +186,24 @@ class ControladorCliente:
                 except ValueError:
                     sg.Popup("Valor inteiro inválido!")
                     self.__tela_inclui_cliente.close()
-                    self.altera_cliente()
+                    self.altera_cliente(values['it_nome'], values['it_data_nascimento'], None, values['it_instagram'],
+                                            tipo_cliente, values['it_obs'])
                     break
                 instagram = values['it_instagram']
                 try:
-                    if values['it_tipo_cliente1']:
+                    if values[Cliente.TIPO_CLIENTE[0]]:
                         tipo_cliente = 'Ouro'
-                    elif values['it_tipo_cliente2']:
+                    elif values[Cliente.TIPO_CLIENTE[1]]:
                         tipo_cliente = 'Prata'
-                    elif values['it_tipo_cliente3']:
+                    elif values[Cliente.TIPO_CLIENTE[2]]:
                         tipo_cliente = 'Bronze'
                     elif tipo_cliente == None:
                         raise CampoNaoPreenchido
                 except CampoNaoPreenchido:
                     sg.Popup('Escolha um tipo para o cliente!')
                     self.__tela_inclui_cliente.close()
-                    self.altera_cliente()
+                    self.altera_cliente(values['it_nome'], values['it_data_nascimento'], values['it_telefone'], values['it_instagram'],
+                                            None, values['it_obs'])
                 obs = values['it_obs']
                 cliente_alterado = Cliente(nome, data_nascimento, telefone, instagram, tipo_cliente, obs)
                 self.__cliente_dao.add(cliente_alterado)

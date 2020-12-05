@@ -2,11 +2,14 @@ from entidade.pessoa import Pessoa
 import datetime
 
 class Cliente(Pessoa):
+
+    TIPO_CLIENTE = ['Ouro', 'Prata', 'Bronze']
+
     def __init__(self, nome: str, data_nascimento: datetime.date, telefone: int, instagram: str, tipo_cliente: str, obs: str):
         super().__init__(nome, data_nascimento, telefone)
         if isinstance(instagram, str):
             self.__instagram = instagram
-        if isinstance(tipo_cliente, str):
+        if isinstance(tipo_cliente, str) and tipo_cliente in Cliente.TIPO_CLIENTE:
             self.__tipo_cliente = tipo_cliente
         if isinstance(obs, str):
             self.__obs = obs
