@@ -37,6 +37,7 @@ class ControladorCliente:
                 for cliente in self.__cliente_dao.get_all():
                     if values[cliente.nome] == True:
                         self.__cliente_dao.remove(cliente.nome)
+                        sg.Popup("Cliente removido!")
             elif button == 'Alterar':
                 for cliente in self.__cliente_dao.get_all():
                     if values[cliente.nome] == True:
@@ -121,23 +122,6 @@ class ControladorCliente:
                     self.inclui_cliente(None, values['it_data_nascimento'], values['it_telefone'], values['it_instagram'], tipo_cliente, values['it_obs'])
                     break
 
-
-    #def inclui_cliente(self):
-        #dados_cliente = self.__tela_cliente.solicita_dados_cliente()
-        #try:
-            #for obj in self.__clientes:
-                #if obj.nome == dados_cliente["Nome"]:
-                    #raise ObjetoJaCadastrado
-            #if datetime.now().year - dados_cliente["Data_nascimento"].year < 18:
-                #raise ClienteMenorDeIdade
-            #novo_cliente = Cliente(dados_cliente["Nome"], dados_cliente["Data_nascimento"], dados_cliente["Telefone"], dados_cliente["Instagram"], dados_cliente["Tipo_cliente"], dados_cliente["Obs"])
-            #self.__clientes.append(novo_cliente)
-        #except ObjetoJaCadastrado:
-            #self.__tela_cliente.excecao(mensagem="Já existe um cliente cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
-        #except ClienteMenorDeIdade:
-            #self.__tela_cliente.excecao(mensagem="O cliente que está tentando cadastrar é menor de idade. Cadastre um responsável e adicione o nome do menor nas observações.")
-
-
     def exclui_cliente(self):
         button, values = self.__tela_cliente.open()
         for cliente in self.__cliente_dao.get_all():
@@ -218,10 +202,3 @@ class ControladorCliente:
     @property
     def clientes(self):
         return self.__cliente_dao.get_all()
-
-    def clientes_nome(self):
-        clientes_str = []
-        for cliente in self.__cliente_dao.get_all():
-            clientes_str.append(cliente.nome)
-        return clientes_str
-

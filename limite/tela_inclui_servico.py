@@ -12,7 +12,6 @@ class TelaIncluiServico:
         sg.ChangeLookAndFeel('Reddit')
 
         layout = [
-                    #[sg.Text('Cadastro de Funcionário', size=(30, 1), font=("Helvetica", 25))],
                     [sg.Text('Nome: ', size=(40, 1)), sg.InputText(nome, key='it_nome')],
                     [sg.Text('Requisito: ', size=(40, 1)), sg.InputText(requisito, key='it_requisito')],
                     [sg.Submit('Salvar'), sg.Cancel('Voltar')]

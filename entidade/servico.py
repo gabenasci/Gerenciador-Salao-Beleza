@@ -6,7 +6,7 @@ class Servico:
         self.__requisito = requisito
 
     @property
-    def nome (self):
+    def nome(self):
         return self.__nome
 
     @nome.setter
