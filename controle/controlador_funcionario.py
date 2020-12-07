@@ -27,7 +27,7 @@ class ControladorFuncionario:
 
     def abre_tela(self):
 
-        switcher = {'Incluir': self.inclui_funcionario, 'Listar': self.lista_funcionarios,
+        switcher = {'Incluir': self.inclui_funcionario,
                      'Voltar': self.retorna}
 
         #self.__continua_exibindo_tela = True
@@ -118,19 +118,6 @@ class ControladorFuncionario:
                     self.inclui_funcionario()
                     break
 
-        '''
-        dados_funcionario = self.__tela_funcionario.solicita_dados_funcionario()
-        try:
-            for obj in self.__funcionarios:
-                if obj.nome == dados_funcionario["Nome"]:
-                    raise ObjetoJaCadastrado
-            novo_funcionario = Funcionario(dados_funcionario["nome"], dados_funcionario["data_nascimento"],
-                                           dados_funcionario["telefone"], dados_funcionario["data_contratacao"])
-            self.__funcionarios.append(novo_funcionario)
-        except ObjetoJaCadastrado:
-            self.__tela_funcionario.excecao(mensagem="Já existe um funcionario cadastrado com esse nome! Por favor, cadastre novamente adicionando o sobrenome.")
-        '''
-
     def altera_funcionario(self, nome, data_n, telefone, data_c):
         self.__tela_inclui_funcionario.init_components(nome, data_n, telefone, data_c)
         button, values = self.__tela_inclui_funcionario.open()
@@ -177,37 +164,11 @@ class ControladorFuncionario:
                 cadastro = False
                 break
 
-        '''
-        nome_funcionario, dado, valor_dado = self.__tela_funcionario.altera_dados_funcionario()
-        for funcionario in self.__funcionarios:
-            if funcionario.nome == nome_funcionario:
-                dados_funcionario = {"nome": funcionario.nome, "data_nascimento": funcionario.data_nascimento, "telefone": funcionario.telefone,
-                                     "data_contratacao": funcionario.data_contratacao}
-                dados_funcionario[dado] = valor_dado
-                self.__funcionarios.remove(funcionario)
-                funcionario_alterado = Funcionario(dados_funcionario["nome"], dados_funcionario["data_nascimento"],
-                                       dados_funcionario["telefone"], dados_funcionario["data_contratacao"])
-                self.__funcionarios.append(funcionario_alterado)
-        '''
     def exclui_funcionario(self):
         button, values = self.__tela_funcionario.open()
         for funcionario in self.__funcionario_dao.get_all():
             if values[funcionario.nome] == True:
                 self.__funcionario_dao.remove(funcionario.nome)
-        '''
-        nome_funcionario = self.__tela_funcionario.encontra_funcionario()
-        try:
-            for obj in self.__funcionarios:
-                if obj.nome == nome_funcionario:
-                    self.__funcionarios.remove(obj)
-                else:
-                    raise ObjetoNaoExisteExcecao
-        except ObjetoNaoExisteExcecao:
-            self.__tela_funcionario.excecao(mensagem="Não existe nenhum funcionário com esse nome. Por favor, confira a lista de clientes cadastrados")
-        '''
-    def lista_funcionarios(self):
-        for funcionario in self.__funcionario_dao.get_all():
-            self.__tela_funcionario.mostra_dados_funcionario(funcionario.nome, funcionario.data_nascimento, funcionario.data_contratacao)
 
     def retorna(self):
         #self.__continua_exibindo_tela = False

@@ -26,7 +26,7 @@ class ControladorCliente:
         return ControladorCliente.__instance
 
     def abre_tela(self):
-        switcher = {'Incluir': self.inclui_cliente, 'Listar': self.lista_clientes, 'Voltar': self.retorna}
+        switcher = {'Incluir': self.inclui_cliente, 'Voltar': self.retorna}
 
         while True:
             self.__tela_cliente.init_components()
@@ -127,11 +127,6 @@ class ControladorCliente:
         for cliente in self.__cliente_dao.get_all():
             if values[cliente.nome] == True:
                 self.__cliente_dao.remove(cliente.nome)
-
-
-    def lista_clientes(self):
-        for cliente in self.__cliente_dao.get_all():
-            self.__tela_cliente.mostra_dados_cliente(cliente.nome, cliente.telefone, cliente.data_nascimento, cliente.instagram, cliente.tipo_cliente, cliente.obs)
 
     def altera_cliente(self, nome, data_n, telefone, instagram, tipo_cliente, obs):
         self.__tela_inclui_cliente.init_components(nome, data_n, telefone, instagram, tipo_cliente, obs)

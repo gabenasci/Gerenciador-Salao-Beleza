@@ -291,35 +291,6 @@ class ControladorAtendimento:
                     self.inclui_atendimento(id, values['it_servico'], values['it_cliente'], None, values['it_data'], values['it_hora'], values['it_valor'], values['pago'], values['realizado'])
                     break
 
-        '''
-        id_atendimento, dado, valor_dado = self.__tela_atendimento.altera_dados_atendimento()
-        for atendimento in self.__atendimentos:
-            if atendimento.id == id_atendimento:
-                dados_atendimento = {"servico": atendimento.servico,
-                                     "cliente": atendimento.cliente,
-                                     "funcionario": atendimento.funcionario, "data": atendimento.data,
-                                     "hora": atendimento.hora, "valor": atendimento.valor,
-                                     "pago": atendimento.pago, "realizado": atendimento.realizado}
-                dados_atendimento[dado] = valor_dado
-                for servico in self.__controlador.controlador_servico.servicos:
-                    if servico.nome == dados_atendimento["servico"]:
-                        dados_atendimento["servico"] = servico
-                for cliente in self.__controlador.controlador_cliente.clientes:
-                    if cliente.nome == dados_atendimento["cliente"]:
-                        dados_atendimento["cliente"] = cliente
-                for funcionario in self.__controlador.controlador_funcionario.funcionarios:
-                    if funcionario.nome == dados_atendimento["funcionario"]:
-                        dados_atendimento["funcionario"] = funcionario
-                index = self.__atendimentos.index(atendimento)
-                self.__atendimentos.remove(atendimento)
-                atendimento_alterado = Atendimento(dados_atendimento["servico"],
-                                                   dados_atendimento["cliente"],
-                                                   dados_atendimento["funcionario"], dados_atendimento["data"],
-                                                   dados_atendimento["hora"], dados_atendimento["valor"],
-                                                   dados_atendimento["pago"], dados_atendimento["realizado"])
-                self.__atendimentos.insert(index, atendimento_alterado)
-                atendimento_alterado.id = id_atendimento
-        '''
     @property
     def atendimentos(self):
         return self.__atendimento_dao.get_all()
@@ -341,7 +312,6 @@ class ControladorAtendimento:
         button, values = self.__tela_relatorio.open()
         if button == sg.WIN_CLOSED or button == 'Voltar':
             self.__tela_relatorio.close()
-
 
     def retorna(self):
         self.__continua_exibindo_tela = False
